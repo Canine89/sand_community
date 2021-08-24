@@ -18,9 +18,21 @@ const BookGraph = ({ renderingData }) => {
     },
   ];
   const graphData = { labels: title, datasets: datasets };
+  const options = {
+    scales: {
+      yAxes: [
+        {
+          ticks: {
+            beginAtZero: true,
+            reverse: true,
+          },
+        },
+      ],
+    },
+  };
   return (
     <div>
-      <Line data={graphData} />
+      <Line data={graphData} options={options} />
     </div>
   );
 };
