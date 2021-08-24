@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import DataTable from 'react-data-table-component';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -6,12 +6,16 @@ import {
   faFileExcel,
 } from '@fortawesome/free-solid-svg-icons';
 import { CSVLink } from 'react-csv';
-import BookGraph from 'components/BookGraph';
+import GraphWithIsbn from 'components/GraphWithIsbn';
 
 const BookStrategy = () => {
   const [data, setData] = useState([]);
   const [renderingData, setRenderingData] = useState([]);
-  const [keyword, setKeyword] = useState('');
+  const [searchKeyword, setSearchKeyword] = useState('');
+  const [isbnData, setIsbnData] = useState([]);
+  const [title, setTitle] = useState('');
+  const componentRef = useRef();
+
   const columns = [
     {
       name: '순위',
@@ -33,8 +37,10 @@ const BookStrategy = () => {
       cell: (row) => {
         return (
           <div>
-            {row.title}{' '}
-            <a href={row.url}>
+            <span onClick={onClickTitleHandler} id={row.isbn} value={row.title}>
+              {row.title}
+            </span>
+            <a href={row.url} className="pl-2">
               <FontAwesomeIcon icon={faLocationArrow} href={row.url} />
             </a>
           </div>
@@ -103,27 +109,49 @@ const BookStrategy = () => {
     setRenderingData(
       data.filter((data) => {
         return (
-          data.title.toLowerCase().includes(keyword.toLowerCase()) ||
-          data.publisher.toLowerCase().includes(keyword.toLowerCase()) ||
-          data.tags.toLowerCase().includes(keyword.toLowerCase())
+          data.title.toLowerCase().includes(searchKeyword.toLowerCase()) ||
+          data.publisher.toLowerCase().includes(searchKeyword.toLowerCase()) ||
+          data.tags.toLowerCase().includes(searchKeyword.toLowerCase())
         );
       }),
     );
-  }, [keyword]);
+  }, [searchKeyword]);
+
+  const onClickTitleHandler = (e) => {
+    fetch('http://localhost:8000/book/isbn/?id=' + e.target.id)
+      .then((response) => {
+        return response.json();
+      })
+      .then((_json) => {
+        setIsbnData(_json);
+        setTitle(e.target.textContent);
+      });
+  };
 
   const onChangeHandler = (e) => {
-    setKeyword(e.target.value);
+    setSearchKeyword(e.target.value);
   };
 
   return (
     <>
-      <div className="flex flex-row space-x-4 items-center pl-5 py-4 bg-red-200">
+      <div className="flex flex-row space-x-4 items-center pl-5 py-4 bg-red-400">
+        <div className="text-white font-extrabold">
+          {new Date().getFullYear().toString() +
+            '년 ' +
+            (new Date().getMonth() + 1).toString() +
+            '월 ' +
+            new Date().getDate().toString() +
+            '일'}
+        </div>
+      </div>
+
+      <div className="flex flex-row space-x-4 items-center pl-5 py-4 bg-white">
         <div className="text-red-800">검색어</div>
         <div>
           <input
             className="rounded-md border text-sm text-gray-600 pl-2 py-1 mr-4 font-semibold border-gray-200"
-            name="keyword"
-            value={keyword}
+            name="searchKeyword"
+            value={searchKeyword}
             onChange={onChangeHandler}
           />
         </div>
@@ -143,7 +171,7 @@ const BookStrategy = () => {
         </CSVLink>
       </div>
 
-      <div className="ag-theme-alpine">
+      <div className="ag-theme-alpine pt-4">
         <DataTable
           data={renderingData}
           noHeader
@@ -156,7 +184,11 @@ const BookStrategy = () => {
       </div>
 
       <div>
-        <BookGraph renderingData={renderingData} />
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <GraphWithIsbn isbnData={isbnData} title={title} />
+          </div>
+        </div>
       </div>
     </>
   );
