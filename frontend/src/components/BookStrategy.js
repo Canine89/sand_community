@@ -6,6 +6,7 @@ import {
   faFileExcel,
 } from '@fortawesome/free-solid-svg-icons';
 import { CSVLink } from 'react-csv';
+import BookGraph from 'components/BookGraph';
 
 const BookStrategy = () => {
   const [data, setData] = useState([]);
@@ -152,6 +153,10 @@ const BookStrategy = () => {
           responsive
           dense
         />
+      </div>
+
+      <div>
+        <BookGraph renderingData={renderingData} />
       </div>
     </>
   );
