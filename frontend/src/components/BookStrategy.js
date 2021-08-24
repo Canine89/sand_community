@@ -1,8 +1,11 @@
 import { useState, useEffect } from 'react';
 import DataTable from 'react-data-table-component';
-import DataTableExtensions from 'react-data-table-component-extensions';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCat, faLocationArrow } from '@fortawesome/free-solid-svg-icons';
+import {
+  faLocationArrow,
+  faFileExcel,
+} from '@fortawesome/free-solid-svg-icons';
+import { CSVLink } from 'react-csv';
 
 const BookStrategy = () => {
   const [data, setData] = useState([]);
@@ -123,24 +126,32 @@ const BookStrategy = () => {
             onChange={onChangeHandler}
           />
         </div>
+        <CSVLink
+          data={renderingData}
+          filename={
+            (new Date().getMonth() + 1).toString() +
+            '월' +
+            new Date().getDate().toString() +
+            '일_' +
+            'excel_data.xls'
+          }
+          target="_blank"
+        >
+          <FontAwesomeIcon icon={faFileExcel} className="mr-2" />
+          엑셀 다운로드
+        </CSVLink>
       </div>
 
       <div className="ag-theme-alpine">
-        <DataTableExtensions
-          columns={columns}
+        <DataTable
           data={renderingData}
-          filter={false}
-        >
-          <DataTable
-            data={renderingData}
-            noHeader
-            columns={columns}
-            pagination
-            fixedHeader
-            responsive
-            dense
-          />
-        </DataTableExtensions>
+          noHeader
+          columns={columns}
+          pagination
+          fixedHeader
+          responsive
+          dense
+        />
       </div>
     </>
   );
