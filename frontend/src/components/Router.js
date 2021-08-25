@@ -2,8 +2,8 @@ import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 import Auth from 'routes/Auth';
 import Home from 'routes/Home';
 import BookStrategy from 'components/BookStrategy';
+import BookPublisher from './BookPublisher';
 import Navigation from 'components/Navigation';
-import GraphPublisher from './GraphPublisher';
 
 const AppRouter = ({ userInfo }) => {
   return (
@@ -18,8 +18,8 @@ const AppRouter = ({ userInfo }) => {
             <Route exact path="/strategy">
               <BookStrategy />
             </Route>
-            <Route exact path="/strategy/publisher">
-              <GraphPublisher />
+            <Route exact path="/publisher">
+              <BookPublisher />
             </Route>
           </>
         ) : (

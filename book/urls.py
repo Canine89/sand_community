@@ -18,8 +18,4 @@ urlpatterns = [
         regex=r"^publisher/$",
         view=views.PublisherBook.as_view(),
     ),
-    url(
-        regex=r"^comparison/$",
-        view=views.CompareBook.as_view(),
-    ),
 ]

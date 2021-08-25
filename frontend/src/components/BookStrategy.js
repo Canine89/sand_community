@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import DataTable from 'react-data-table-component';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -14,7 +14,6 @@ const BookStrategy = () => {
   const [searchKeyword, setSearchKeyword] = useState('');
   const [isbnData, setIsbnData] = useState([]);
   const [title, setTitle] = useState('');
-  const componentRef = useRef();
 
   const columns = [
     {
