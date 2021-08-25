@@ -9,6 +9,9 @@ const Navigation = () => {
       <div className="py-1 px-2 text-red-800">
         <Link to="/strategy">🥷 전략실</Link>
       </div>
+      <div className="py-1 px-2 text-red-800">
+        <Link to="/strategy/publisher">👩‍🔬 이지스퍼블리싱 스탯</Link>
+      </div>
     </div>
   );
 };

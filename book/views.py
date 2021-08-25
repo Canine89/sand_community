@@ -57,3 +57,22 @@ class IsbnBook(APIView):
         )
 
         return Response(data=serializer.data)
+
+
+class PublisherBook(APIView):
+    def get(self, request, format=None):
+        publisher = request.query_params.get("pub", None)
+        year = request.query_params.get("year", None)
+        month = request.query_params.get("month", None)
+        day = request.query_params.get("day", None)
+
+        metadatas = models.Metadata.objects.filter(
+            market="yes24",
+            crawl_date__year=year,
+            crawl_date__month=month,
+            crawl_date__day=day,
+        ).filter(Q(book__publisher=publisher))
+
+        serializer = serializers.MetadataSerializer(metadatas, many=True)
+
+        return Response(data=serializer.data)

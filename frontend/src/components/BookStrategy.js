@@ -162,7 +162,9 @@ const BookStrategy = () => {
             '월' +
             new Date().getDate().toString() +
             '일_' +
-            'excel_data.xls'
+            'excel_data' +
+            searchKeyword +
+            '.xls'
           }
           target="_blank"
         >
