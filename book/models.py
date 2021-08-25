@@ -2,6 +2,7 @@ from django.db import models
 from core import models as core_models
 from taggit.managers import TaggableManager
 
+
 # Create your models here.
 class Book(core_models.TimeStampedModel):
     title = models.CharField(max_length=255, default="none", null=False)

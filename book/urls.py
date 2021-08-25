@@ -14,4 +14,12 @@ urlpatterns = [
         regex=r"^isbn/$",
         view=views.IsbnBook.as_view(),
     ),
+    url(
+        regex=r"^publisher/$",
+        view=views.PublisherBook.as_view(),
+    ),
+    url(
+        regex=r"^comparison/$",
+        view=views.CompareBook.as_view(),
+    ),
 ]
