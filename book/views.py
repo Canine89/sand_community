@@ -22,6 +22,8 @@ class Book(APIView):
             many=True,
         )
 
+        print(metadatas)
+
         return Response(data=serializer.data)
 
 
@@ -42,6 +44,8 @@ class DatetimeRangeBook(APIView):
             metadatas,
             many=True,
         )
+
+        print(metadatas)
         return Response(data=serializer.data)
 
 
