@@ -76,12 +76,12 @@ const BookStrategy = () => {
   ];
 
   useEffect(() => {
-    fetch('http://192.168.0.81:8000/book/')
+    fetch('http://192.168.219.107:8000/book/')
       .then((response) => {
         return response.json();
       })
       .then((_json) => {
-        // console.log(_json);
+        console.log(_json);
         const datas = _json.map((data) => {
           return {
             title: data.book.title,
@@ -117,7 +117,7 @@ const BookStrategy = () => {
   }, [searchKeyword]);
 
   const onClickTitleHandler = (e) => {
-    fetch('http://192.168.0.81:8000/book/isbn/?id=' + e.target.id)
+    fetch('http://192.168.219.107:8000/book/isbn/?id=' + e.target.id)
       .then((response) => {
         return response.json();
       })

@@ -8,7 +8,7 @@ from itertools import chain
 
 
 class Book(APIView):
-    def get(self, request, format=None):
+    def get(self, format=None):
         _datetime = datetime.now()
         metadatas = models.Metadata.objects.filter(
             market="yes24",
@@ -21,8 +21,6 @@ class Book(APIView):
             metadatas,
             many=True,
         )
-
-        print(metadatas)
 
         return Response(data=serializer.data)
 
@@ -45,7 +43,6 @@ class DatetimeRangeBook(APIView):
             many=True,
         )
 
-        print(metadatas)
         return Response(data=serializer.data)
 
 
@@ -73,14 +70,13 @@ class IsbnBook(APIView):
 class PublisherBook(APIView):
     def get(self, request, format=None):
         publisher = request.query_params.get("publisher", None)
-        # year = request.query_params.get("year", None)
-        # month = request.query_params.get("month", None)
-        # day = request.query_params.get("day", None)
 
         metadatas = models.Metadata.objects.select_related("book").filter(
             market="yes24",
             book__publisher=publisher,
         )
+
+        print(metadatas)
 
         serializer = serializers.MetadataSerializer(metadatas, many=True)
 

@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
+import GraphWithBooks from 'components/GraphWithBooks';
 
 const BookPublisher = () => {
+  const [groupingData, setGroupingData] = useState([]);
   const [renderingData, setRenderingData] = useState([]);
   const [fetchUrl, setFetchUrl] = useState('');
 
@@ -10,23 +12,23 @@ const BookPublisher = () => {
         return response.json();
       })
       .then((_json) => {
-        // console.log(_json);
         const groupedData = groupBy(_json, (data) => data.book.isbn);
-        setRenderingData(groupedData);
+        setGroupingData(groupedData);
       });
   }, [fetchUrl]);
 
   useEffect(() => {
-    console.log(renderingData);
-    renderingData.forEach((value, key, mapObj) => {
-      console.log(value);
+    const arrayData = [];
+    groupingData.forEach((value, key, mapObj) => {
+      arrayData.push(value);
     });
-  }, [renderingData]);
+    setRenderingData(arrayData);
+  }, [groupingData]);
 
   const onClickHander = (e) => {
     const value = e.target.value;
     const _fetchUrl =
-      'http://192.168.0.81:8000/book/publisher/?publisher=' + value;
+      'http://192.168.219.107:8000/book/publisher/?publisher=' + value;
     setFetchUrl(_fetchUrl);
   };
 
@@ -63,7 +65,51 @@ const BookPublisher = () => {
           >
             한빛미디어
           </button>
+          <button
+            value="인사이트(insight)"
+            onClick={onClickHander}
+            className="rounded-md mr-2 p-2 hover:bg-purple-700 bg-red-600 text-sm text-white font-semibold border-gray-200"
+          >
+            인사이트
+          </button>
+          <button
+            value="제이펍"
+            onClick={onClickHander}
+            className="rounded-md mr-2 p-2 hover:bg-purple-700 bg-red-600 text-sm text-white font-semibold border-gray-200"
+          >
+            제이펍
+          </button>
+          <button
+            value="길벗"
+            onClick={onClickHander}
+            className="rounded-md mr-2 p-2 hover:bg-purple-700 bg-red-600 text-sm text-white font-semibold border-gray-200"
+          >
+            길벗
+          </button>
+          <button
+            value="비제이퍼블릭(BJ퍼블릭)"
+            onClick={onClickHander}
+            className="rounded-md mr-2 p-2 hover:bg-purple-700 bg-red-600 text-sm text-white font-semibold border-gray-200"
+          >
+            비제이퍼블릭(BJ퍼블릭)
+          </button>
+          <button
+            value="루비페이퍼"
+            onClick={onClickHander}
+            className="rounded-md mr-2 p-2 hover:bg-purple-700 bg-red-600 text-sm text-white font-semibold border-gray-200"
+          >
+            루비페이퍼
+          </button>
         </div>
+      </div>
+      <div className="grid grid-cols-3 gap-4 pt-4">
+        {renderingData.slice(0, 18).map((_array, _index) => {
+          return (
+            <div>
+              <GraphWithBooks _array={_array} key={_index} />
+            </div>
+          );
+        })}
       </div>
     </>
   );
