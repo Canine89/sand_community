@@ -7,6 +7,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { CSVLink } from 'react-csv';
 import GraphWithIsbn from 'components/GraphWithIsbn';
+import BookCompare from './BookCompare';
 
 const BookStrategy = () => {
   const [data, setData] = useState([]);
@@ -14,6 +15,7 @@ const BookStrategy = () => {
   const [searchKeyword, setSearchKeyword] = useState('');
   const [isbnData, setIsbnData] = useState([]);
   const [title, setTitle] = useState('');
+  const [selected, setSelected] = useState([]);
 
   const columns = [
     {
@@ -33,10 +35,22 @@ const BookStrategy = () => {
       selector: 'title',
       sortable: 'true',
       maxWidth: '400px',
-      cell: (row) => {
+      cell: (row, index) => {
         return (
           <div>
-            <span onClick={onClickTitleHandler} id={row.isbn} value={row.title}>
+            <input
+              type="checkbox"
+              value={row.isbn}
+              onChange={onClickCheckHander}
+            />
+            <span
+              onClick={onClickTitleHandler}
+              id={row.isbn}
+              value={row.title}
+              onChange={(e) => {
+                e.currentTarget.checked, 'check';
+              }}
+            >
               {row.title}
             </span>
             <a href={row.url} className="pl-2">
@@ -131,6 +145,10 @@ const BookStrategy = () => {
     setSearchKeyword(e.target.value);
   };
 
+  const onClickCheckHander = (e) => {
+    console.log(e.target.value);
+  };
+
   return (
     <>
       <div className="flex flex-row space-x-4 items-center pl-5 py-4 bg-red-400">
@@ -188,6 +206,11 @@ const BookStrategy = () => {
         <div className="grid grid-cols-2 gap-4">
           <div>
             <GraphWithIsbn isbnData={isbnData} title={title} />
+          </div>
+        </div>
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <BookCompare isbns={[1, 2, 3]} />
           </div>
         </div>
       </div>
