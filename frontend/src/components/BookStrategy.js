@@ -43,14 +43,7 @@ const BookStrategy = () => {
               value={row.isbn}
               onChange={onClickCheckHander}
             />
-            <span
-              onClick={onClickTitleHandler}
-              id={row.isbn}
-              value={row.title}
-              onChange={(e) => {
-                e.currentTarget.checked, 'check';
-              }}
-            >
+            <span onClick={onClickTitleHandler} id={row.isbn} value={row.title}>
               {row.title}
             </span>
             <a href={row.url} className="pl-2">
