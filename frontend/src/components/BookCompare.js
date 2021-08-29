@@ -1,5 +1,5 @@
 const BookCompare = ({ ...isbns }) => {
-  console.log(isbns);
+  // console.log(isbns);
   return <></>;
 };
 

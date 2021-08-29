@@ -15,7 +15,7 @@ const BookStrategy = () => {
   const [searchKeyword, setSearchKeyword] = useState('');
   const [isbnData, setIsbnData] = useState([]);
   const [title, setTitle] = useState('');
-  const [selected, setSelected] = useState([]);
+  const [selectedCheckBox, setSelectedCheckBox] = useState(new Set());
 
   const columns = [
     {
@@ -41,7 +41,7 @@ const BookStrategy = () => {
             <input
               type="checkbox"
               value={row.isbn}
-              onChange={onClickCheckHander}
+              onChange={onCheckBoxChangehandler}
             />
             <span onClick={onClickTitleHandler} id={row.isbn} value={row.title}>
               {row.title}
@@ -88,7 +88,7 @@ const BookStrategy = () => {
         return response.json();
       })
       .then((_json) => {
-        console.log(_json);
+        // console.log(_json);
         const datas = _json.map((data) => {
           return {
             title: data.book.title,
@@ -123,6 +123,10 @@ const BookStrategy = () => {
     );
   }, [searchKeyword]);
 
+  useEffect(() => {
+    console.log('hi');
+  }, [selectedCheckBox]);
+
   const onClickTitleHandler = (e) => {
     fetch('http://192.168.219.107:8000/book/isbn/?id=' + e.target.id)
       .then((response) => {
@@ -138,8 +142,19 @@ const BookStrategy = () => {
     setSearchKeyword(e.target.value);
   };
 
-  const onClickCheckHander = (e) => {
-    console.log(e.target.value);
+  const onCheckBoxChangehandler = (e) => {
+    onCheckBoxCheckedHandler(e.target.checked, e.target.value);
+  };
+
+  const onCheckBoxCheckedHandler = (_isChecked, _isbn) => {
+    if (_isChecked === false && selectedCheckBox.has(_isbn)) {
+      selectedCheckBox.delete(_isbn);
+      setSelectedCheckBox(selectedCheckBox);
+      return true;
+    }
+    selectedCheckBox.add(_isbn);
+    setSelectedCheckBox(selectedCheckBox);
+    return false;
   };
 
   return (
@@ -189,6 +204,13 @@ const BookStrategy = () => {
           noHeader
           columns={columns}
           pagination
+          onChangePage={() => {
+            selectedCheckBox.clear();
+            setSelectedCheckBox(selectedCheckBox);
+            document
+              .querySelectorAll('input[type=checkbox')
+              .forEach((item) => (item.checked = false));
+          }}
           fixedHeader
           responsive
           dense
