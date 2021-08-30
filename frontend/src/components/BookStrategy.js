@@ -83,7 +83,7 @@ const BookStrategy = () => {
   ];
 
   useEffect(() => {
-    fetch('http://192.168.219.107:8000/book/')
+    fetch('http://175.211.105.9:8000/book/')
       .then((response) => {
         return response.json();
       })
@@ -128,7 +128,7 @@ const BookStrategy = () => {
   }, [selectedCheckBox]);
 
   const onClickTitleHandler = (e) => {
-    fetch('http://192.168.219.107:8000/book/isbn/?id=' + e.target.id)
+    fetch('http://175.211.105.9:8000/book/isbn/?id=' + e.target.id)
       .then((response) => {
         return response.json();
       })

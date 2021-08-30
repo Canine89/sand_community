@@ -28,7 +28,7 @@ const BookPublisher = () => {
   const onClickHander = (e) => {
     const value = e.target.value;
     const _fetchUrl =
-      'http://192.168.219.107:8000/book/publisher/?publisher=' + value;
+      'http://175.211.105.9:8000/book/publisher/?publisher=' + value;
     setFetchUrl(_fetchUrl);
   };
 
@@ -99,6 +99,20 @@ const BookPublisher = () => {
             className="rounded-md mr-2 p-2 hover:bg-purple-700 bg-red-600 text-sm text-white font-semibold border-gray-200"
           >
             루비페이퍼
+          </button>
+          <button
+            value="생능출판사"
+            onClick={onClickHander}
+            className="rounded-md mr-2 p-2 hover:bg-purple-700 bg-red-600 text-sm text-white font-semibold border-gray-200"
+          >
+            생능출판사
+          </button>
+          <button
+            value="골든래빗"
+            onClick={onClickHander}
+            className="rounded-md mr-2 p-2 hover:bg-purple-700 bg-red-600 text-sm text-white font-semibold border-gray-200"
+          >
+            골든래빗
           </button>
         </div>
       </div>

@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 // import { authService } from 'fbase';
 
 function App() {
-  const [userInfo, setUserInfo] = useState({ displayName: '이지스' });
+  const [userInfo, setUserInfo] = useState({ displayName: '🥷닌자너구리' });
 
   // useEffect(() => {
   //   authService.onAuthStateChanged((user) => {
