@@ -83,7 +83,7 @@ const BookStrategy = () => {
   ];
 
   useEffect(() => {
-    fetch('http://175.211.105.9:8000/book/')
+    fetch('http://localhost:8000/book/')
       .then((response) => {
         return response.json();
       })
@@ -128,7 +128,7 @@ const BookStrategy = () => {
   }, [selectedCheckBox]);
 
   const onClickTitleHandler = (e) => {
-    fetch('http://175.211.105.9:8000/book/isbn/?id=' + e.target.id)
+    fetch('http://localhost:8000/book/isbn/?id=' + e.target.id)
       .then((response) => {
         return response.json();
       })
@@ -187,7 +187,7 @@ const BookStrategy = () => {
             '월' +
             new Date().getDate().toString() +
             '일_' +
-            'excel_data' +
+            'excel_data_' +
             searchKeyword +
             '.xls'
           }

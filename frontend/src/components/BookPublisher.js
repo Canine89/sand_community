@@ -28,7 +28,7 @@ const BookPublisher = () => {
   const onClickHander = (e) => {
     const value = e.target.value;
     const _fetchUrl =
-      'http://175.211.105.9:8000/book/publisher/?publisher=' + value;
+      'http://localhost:8000/book/publisher/?publisher=' + value;
     setFetchUrl(_fetchUrl);
   };
 
