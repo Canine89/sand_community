@@ -2,7 +2,7 @@
   "name": "frontend",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:8000",
+  "proxy": "http://175.211.105.9:8000/",
   "dependencies": {
     "@craco/craco": "^6.2.0",
     "@fortawesome/fontawesome-free": "^5.14.0",

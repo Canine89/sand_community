@@ -83,7 +83,7 @@ const BookStrategy = () => {
   ];
 
   useEffect(() => {
-    fetch('http://localhost:8000/book/')
+    fetch('http://175.211.105.9:8000/book/')
       .then((response) => {
         return response.json();
       })
@@ -128,7 +128,7 @@ const BookStrategy = () => {
   }, [selectedCheckBox]);
 
   const onClickTitleHandler = (e) => {
-    fetch('http://localhost:8000/book/isbn/?id=' + e.target.id)
+    fetch('http://175.211.105.9:8000/book/isbn/?id=' + e.target.id)
       .then((response) => {
         return response.json();
       })
@@ -218,7 +218,7 @@ const BookStrategy = () => {
       </div>
 
       <div>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 gap-4">
           <div>
             <GraphWithIsbn isbnData={isbnData} title={title} />
           </div>
