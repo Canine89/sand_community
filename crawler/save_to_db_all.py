@@ -188,6 +188,8 @@ def save_data(datas, fileName):
 if __name__ == "__main__":
     for _file in os.listdir(folderName):
         print(_file)
+        if _file == ".DS_Store":
+            continue
         with open(folderName + _file, encoding="utf-8") as json_file:
             json_data = json.load(json_file)
             save_data(json_data, _file)
