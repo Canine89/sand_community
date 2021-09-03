@@ -4,6 +4,7 @@ import Home from 'routes/Home';
 import BookStrategy from 'components/BookStrategy';
 import BookPublisher from './BookPublisher';
 import Navigation from 'components/Navigation';
+import BookComparision from './BookComparision';
 
 const AppRouter = ({ userInfo }) => {
   return (
@@ -20,6 +21,9 @@ const AppRouter = ({ userInfo }) => {
             </Route>
             <Route exact path="/publisher">
               <BookPublisher />
+            </Route>
+            <Route exact path="/comparision">
+              <BookComparision />
             </Route>
           </>
         ) : (

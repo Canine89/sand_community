@@ -7,7 +7,6 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { CSVLink } from 'react-csv';
 import GraphWithIsbn from 'components/GraphWithIsbn';
-import BookCompare from './BookCompare';
 
 const BookStrategy = () => {
   const [data, setData] = useState([]);
@@ -38,11 +37,6 @@ const BookStrategy = () => {
       cell: (row, index) => {
         return (
           <div>
-            <input
-              type="checkbox"
-              value={row.isbn}
-              onChange={onCheckBoxChangehandler}
-            />
             <span onClick={onClickTitleHandler} id={row.isbn} value={row.title}>
               {row.title}
             </span>
@@ -124,7 +118,7 @@ const BookStrategy = () => {
   }, [searchKeyword]);
 
   useEffect(() => {
-    console.log('hi');
+    console.log(selectedCheckBox);
   }, [selectedCheckBox]);
 
   const onClickTitleHandler = (e) => {
@@ -140,21 +134,6 @@ const BookStrategy = () => {
 
   const onChangeHandler = (e) => {
     setSearchKeyword(e.target.value);
-  };
-
-  const onCheckBoxChangehandler = (e) => {
-    onCheckBoxCheckedHandler(e.target.checked, e.target.value);
-  };
-
-  const onCheckBoxCheckedHandler = (_isChecked, _isbn) => {
-    if (_isChecked === false && selectedCheckBox.has(_isbn)) {
-      selectedCheckBox.delete(_isbn);
-      setSelectedCheckBox(selectedCheckBox);
-      return true;
-    }
-    selectedCheckBox.add(_isbn);
-    setSelectedCheckBox(selectedCheckBox);
-    return false;
   };
 
   return (
@@ -221,11 +200,6 @@ const BookStrategy = () => {
         <div className="grid grid-cols-1 gap-4">
           <div>
             <GraphWithIsbn isbnData={isbnData} title={title} />
-          </div>
-        </div>
-        <div className="grid grid-cols-2 gap-4">
-          <div>
-            <BookCompare isbns={[1, 2, 3]} />
           </div>
         </div>
       </div>
