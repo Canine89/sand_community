@@ -40,7 +40,7 @@ const BookStrategy = () => {
             <span onClick={onClickTitleHandler} id={row.isbn} value={row.title}>
               {row.title}
             </span>
-            <a href={row.url} className="pl-2">
+            <a target="_blank" href={row.url} className="pl-2">
               <FontAwesomeIcon icon={faLocationArrow} href={row.url} />
             </a>
           </div>
@@ -77,7 +77,7 @@ const BookStrategy = () => {
   ];
 
   useEffect(() => {
-    fetch('http://175.211.105.9:8000/book/')
+    fetch('http://localhost:8000/book/')
       .then((response) => {
         return response.json();
       })
@@ -122,7 +122,7 @@ const BookStrategy = () => {
   }, [selectedCheckBox]);
 
   const onClickTitleHandler = (e) => {
-    fetch('http://175.211.105.9:8000/book/isbn/?id=' + e.target.id)
+    fetch('http://localhost:8000/book/isbn/?id=' + e.target.id)
       .then((response) => {
         return response.json();
       })
