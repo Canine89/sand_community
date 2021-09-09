@@ -16,14 +16,7 @@ django.setup()
 from book import models as book_models
 
 
-def print_data(datas):
-    for key, value in datas.items():
-        print(key)
-        print(value)
-
-
 def make_integer_from_string(string_data):
-    print(string_data)
     if str(type(string_data)) == "<class 'str'>":
         try:
             return int(re.findall("\d+", string_data)[0])
@@ -36,7 +29,7 @@ def make_datetime_from_string(string_data):
     year = make_integer_from_string(re.findall("\d+년", string_data)[0])
     month = make_integer_from_string(re.findall("\d+월", string_data)[0])
 
-    return datetime.datetime(year=year, month=month, day=1)
+    return timezone.make_aware(datetime.datetime(year=year, month=month, day=1))
 
 
 def make_right_price(sales_price):
@@ -56,23 +49,26 @@ def save_data(datas, fileName):
         minutes=now_datetime.minute,
         seconds=now_datetime.second,
     )
+    file_year = int(fileName[6:10])
+    file_month = int(fileName[11:13])
+    file_day = int(fileName[13:15])
 
     if (
         book_models.Metadata.objects.filter(
             crawl_date__range=(
-                datetime.datetime(
-                    year=int(fileName[6:10]),
-                    month=int(fileName[11:13]),
-                    day=int(fileName[13:15]),
-                ),
-                datetime.datetime(
-                    year=int(fileName[6:10]),
-                    month=int(fileName[11:13]),
-                    day=int(fileName[13:15]),
+                timezone.make_aware(datetime.datetime(
+                    year=file_year,
+                    month=file_month,
+                    day=file_day,
+                )),
+                timezone.make_aware(datetime.datetime(
+                    year=file_year,
+                    month=file_month,
+                    day=file_day,
                     hour=23,
                     minute=59,
                     second=59,
-                ),
+                )),
             ),
         ).count()
         == 600
@@ -82,68 +78,28 @@ def save_data(datas, fileName):
 
     for key, value in datas.items():
         title = value["title"]
-        try:
-            author = value["author"]
-        except:
-            author = "미정"
+        print(file_year, file_month, file_day, "의", title, "처리 중...")
+        try: 
+            author = value["author"] 
+        except: 
+            author = "저자 없음"
 
-        try:
-            publisher = value["publisher"]
-        except:
-            publisher = "미정"
-
-        try:
-            publish_date = make_datetime_from_string(value["publish_date"])
-        except:
-            publish_date = datetime.datetime(year=1999, month=1, day=1)
-
-        try:
-            right_price = value["right_price"]
-        except:
-            right_price = 0
-
-        try:
-            sales_price = value["sales_price"]
-        except:
-            sales_price = 0
-
-        try:
-            isbn = value["isbn"]
-        except:
-            isbn = 0
-
+        publisher = value["publisher"]
+        publish_date = make_datetime_from_string(value["publish_date"])
+        right_price = value["right_price"]
+        sales_price = value["sales_price"]
+        isbn = value["isbn"]
         url = value["url"]
-
-        try:
-            page = value["page"]
-        except:
-            page = 0
-
-        try:
-            tags = value["tags"]
-        except:
-            tags = ["미정"]
-
+        page = value["page"]
+        tags = value["tags"]
         rank = value["rank"]
-
-        try:
-            sales_point = value["sales_point"]
-        except:
-            sales_point = 0
-
-        # 임시로 yes24로 등록(크롤러 업데이트 후 다음 코드로 변경 예정)
-        # market = value["market"]
+        sales_point = value["sales_point"]
         market = "yes24"
 
         try:
             book = book_models.Book.objects.get(isbn=isbn)
             print("이미 등록된 책이므로 DB 등록을 넘어갑니다.")
         except:
-            print(
-                fileName[6:10],
-                fileName[11:13],
-                fileName[13:15],
-            )
             book = book_models.Book.objects.create(
                 title=title,
                 author=author,
@@ -154,12 +110,12 @@ def save_data(datas, fileName):
                 isbn=isbn,
                 url=url,
                 page=page,
-                crawl_date=datetime.datetime(
-                    year=int(fileName[6:10]),
-                    month=int(fileName[11:13]),
-                    day=int(fileName[13:15]),
+                crawl_date=timezone.make_aware(datetime.datetime(
+                    year=file_year,
+                    month=file_month,
+                    day=file_day,
                     hour=12,
-                ),
+                )),
             )
 
             for tag in tags:
@@ -173,12 +129,12 @@ def save_data(datas, fileName):
                 rank=rank,
                 sales_point=sales_point,
                 book=book,
-                crawl_date=datetime.datetime(
-                    year=int(fileName[6:10]),
-                    month=int(fileName[11:13]),
-                    day=int(fileName[13:15]),
+                crawl_date=timezone.make_aware(datetime.datetime(
+                    year=file_year,
+                    month=file_month,
+                    day=file_day,
                     hour=12,
-                ),
+                )),
             )
             print(book.title, "의 Metadata 등록을 마쳤습니다.")
         else:
@@ -186,8 +142,14 @@ def save_data(datas, fileName):
 
 
 if __name__ == "__main__":
+    now_datetime = datetime.datetime.now()
+    start_datetime = now_datetime - datetime.timedelta(
+        hours=now_datetime.hour,
+        minutes=now_datetime.minute,
+        seconds=now_datetime.second,
+    )
+
     for _file in os.listdir(folderName):
-        print(_file)
         if _file == ".DS_Store":
             continue
         with open(folderName + _file, encoding="utf-8") as json_file:

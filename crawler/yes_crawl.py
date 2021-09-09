@@ -112,7 +112,7 @@ class Crawler:
 
                 result_data[bookinfo_key]["sales_point"] = (
                     make_integer_from_string(
-                        soup.select("span.gd_ratingArea > span.gd_sellNum")[
+                        soup.select("#yDetailTopWrap > div.topColRgt > div.gd_infoTop > span.gd_ratingArea > span.gd_sellNum")[
                             0
                         ].text.replace(",", "")
                     )
