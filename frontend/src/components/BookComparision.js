@@ -6,7 +6,7 @@ const BookComparision = () => {
   const [titles, setTitles] = useState('');
 
   const onClickHandler = (e) => {
-    fetch('http://sand.iptime.org:8000/book/isbn/?id=' + isbn)
+    fetch('http://localhost:8000/book/isbn/?id=' + isbn)
       .then((response) => {
         return response.json();
       })

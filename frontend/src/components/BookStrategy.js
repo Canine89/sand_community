@@ -77,7 +77,7 @@ const BookStrategy = () => {
   ];
 
   useEffect(() => {
-    fetch('http://sand.iptime.org:8000/book/')
+    fetch('http://localhost:8000/book/')
       .then((response) => {
         return response.json();
       })
@@ -122,7 +122,7 @@ const BookStrategy = () => {
   }, [selectedCheckBox]);
 
   const onClickTitleHandler = (e) => {
-    fetch('http://sand.iptime.org:8000/book/isbn/?id=' + e.target.id)
+    fetch('http://localhost:8000/book/isbn/?id=' + e.target.id)
       .then((response) => {
         return response.json();
       })
