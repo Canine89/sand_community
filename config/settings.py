@@ -46,6 +46,7 @@ THIRD_PARTY_APPS = [
     "corsheaders",
     "taggit_serializer",
     "rest_framework",
+    'django_extensions'
 ]
 
 INSTALLED_APPS = DJANGO_APPS + PROJECT_APPS + THIRD_PARTY_APPS

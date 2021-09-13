@@ -18,4 +18,8 @@ urlpatterns = [
         regex=r"^publisher/$",
         view=views.PublisherBook.as_view(),
     ),
+    url(
+        regex=r"^publisher/status/$",
+        view=views.PublisherStatus.as_view(),
+    ),
 ]

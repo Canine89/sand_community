@@ -7,10 +7,10 @@ const Navigation = () => {
         <Link to="/">🏠 홈</Link>
       </div>
       <div className="py-1 px-2 text-red-800">
-        <Link to="/strategy">🥷 전략실</Link>
+        <Link to="/strategy">🔬 전략실</Link>
       </div>
       <div className="py-1 px-2 text-red-800">
-        <Link to="/comparision">😵‍💫 ISBN 비교</Link>
+        <Link to="/comparision">⚗ 각종 테이블</Link>
       </div>
       <div className="py-1 px-2 text-red-800">
         <Link to="/publisher">🧐 출판사</Link>
