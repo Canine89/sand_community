@@ -4,9 +4,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faLocationArrow,
   faFileExcel,
+  faBarcode,
 } from '@fortawesome/free-solid-svg-icons';
 import { CSVLink } from 'react-csv';
 import GraphWithIsbn from 'components/GraphWithIsbn';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
+import Loading from './Loading';
 
 const BookStrategy = () => {
   const [data, setData] = useState([]);
@@ -14,7 +17,7 @@ const BookStrategy = () => {
   const [searchKeyword, setSearchKeyword] = useState('');
   const [isbnData, setIsbnData] = useState([]);
   const [title, setTitle] = useState('');
-  const [selectedCheckBox, setSelectedCheckBox] = useState(new Set());
+  const [gridSize, setGridSize] = useState('grid grid-cols-1 gap-4');
 
   const columns = [
     {
@@ -43,6 +46,11 @@ const BookStrategy = () => {
             <a target="_blank" href={row.url} className="pl-2">
               <FontAwesomeIcon icon={faLocationArrow} href={row.url} />
             </a>
+            <CopyToClipboard text={row.isbn} className="pl-2">
+              <button>
+                <FontAwesomeIcon icon={faBarcode} />
+              </button>
+            </CopyToClipboard>
           </div>
         );
       },
@@ -77,7 +85,7 @@ const BookStrategy = () => {
   ];
 
   useEffect(() => {
-    fetch('http://192.168.0.81:8000/book/')
+    fetch('http://127.0.0.1:8000/book/')
       .then((response) => {
         return response.json();
       })
@@ -117,12 +125,8 @@ const BookStrategy = () => {
     );
   }, [searchKeyword]);
 
-  useEffect(() => {
-    console.log(selectedCheckBox);
-  }, [selectedCheckBox]);
-
   const onClickTitleHandler = (e) => {
-    fetch('http://192.168.0.81:8000/book/isbn/?id=' + e.target.id)
+    fetch('http://127.0.0.1:8000/book/isbn/?id=' + e.target.id)
       .then((response) => {
         return response.json();
       })
@@ -134,6 +138,11 @@ const BookStrategy = () => {
 
   const onChangeHandler = (e) => {
     setSearchKeyword(e.target.value);
+  };
+
+  const onChangeGridSizeHandler = (e) => {
+    const gridSize = 'grid grid-cols-' + e.target.value + ' gap-4';
+    setGridSize(gridSize);
   };
 
   return (
@@ -183,13 +192,6 @@ const BookStrategy = () => {
           noHeader
           columns={columns}
           pagination
-          onChangePage={() => {
-            selectedCheckBox.clear();
-            setSelectedCheckBox(selectedCheckBox);
-            document
-              .querySelectorAll('input[type=checkbox')
-              .forEach((item) => (item.checked = false));
-          }}
           fixedHeader
           responsive
           dense
@@ -197,9 +199,32 @@ const BookStrategy = () => {
       </div>
 
       <div>
-        <div className="grid grid-cols-1 gap-4">
+        <div className={gridSize}>
           <div>
-            <GraphWithIsbn isbnData={isbnData} title={title} />
+            {isbnData.length > 0 ? (
+              <>
+                <div>
+                  <span className="text-green-800 extra-bold">
+                    그래프 크기 변경 옵션
+                  </span>
+                  <input
+                    className="rounded-md border px-2 py-1 mx-2 font-semibold text-white bg-green-400"
+                    type="button"
+                    value="1"
+                    onClick={onChangeGridSizeHandler}
+                  />
+                  <input
+                    className="rounded-md border px-2 py-1 font-semibold text-white bg-green-400"
+                    type="button"
+                    value="2"
+                    onClick={onChangeGridSizeHandler}
+                  />
+                </div>
+                <GraphWithIsbn isbnData={isbnData} title={title} />
+              </>
+            ) : (
+              <Loading />
+            )}
           </div>
         </div>
       </div>
