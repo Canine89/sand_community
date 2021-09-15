@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faLocationArrow,
   faFileExcel,
-  faBarcode,
+  faClone,
 } from '@fortawesome/free-solid-svg-icons';
 import { CSVLink } from 'react-csv';
 import GraphWithIsbn from 'components/GraphWithIsbn';
@@ -72,7 +72,7 @@ const BookStrategy = () => {
               className="pl-2"
             >
               <button>
-                <FontAwesomeIcon icon={faBarcode} />
+                <FontAwesomeIcon icon={faClone} />
               </button>
             </CopyToClipboard>
             <ReactTooltip id="isbn">

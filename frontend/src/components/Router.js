@@ -9,7 +9,7 @@ import BookComparision from './BookComparision';
 const AppRouter = ({ userInfo }) => {
   return (
     <Router>
-      {userInfo && <Navigation />}
+      {userInfo && <Navigation userInfo={userInfo} />}
       <Switch>
         {userInfo ? (
           <>
