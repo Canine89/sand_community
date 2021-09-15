@@ -10,6 +10,7 @@ import { CSVLink } from 'react-csv';
 import GraphWithIsbn from 'components/GraphWithIsbn';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import Loading from './Loading';
+import ReactTooltip from 'react-tooltip';
 
 const BookStrategy = () => {
   const [data, setData] = useState([]);
@@ -40,17 +41,43 @@ const BookStrategy = () => {
       cell: (row, index) => {
         return (
           <div>
-            <span onClick={onClickTitleHandler} id={row.isbn} value={row.title}>
+            <span
+              data-tip
+              data-for="title"
+              onClick={onClickTitleHandler}
+              id={row.isbn}
+              value={row.title}
+            >
               {row.title}
             </span>
-            <a target="_blank" href={row.url} className="pl-2">
+            <ReactTooltip id="title">
+              <span>제목을 누르면 그래프가 나타납니다.</span>
+            </ReactTooltip>
+            <a
+              target="_blank"
+              href={row.url}
+              data-tip
+              data-for="url"
+              className="pl-2"
+            >
               <FontAwesomeIcon icon={faLocationArrow} href={row.url} />
             </a>
-            <CopyToClipboard text={row.isbn} className="pl-2">
+            <ReactTooltip id="url">
+              <span>yes24 사이트로 이동합니다.</span>
+            </ReactTooltip>
+            <CopyToClipboard
+              text={row.isbn}
+              data-tip
+              data-for="isbn"
+              className="pl-2"
+            >
               <button>
                 <FontAwesomeIcon icon={faBarcode} />
               </button>
             </CopyToClipboard>
+            <ReactTooltip id="isbn">
+              <span>isbn을 복사합니다.</span>
+            </ReactTooltip>
           </div>
         );
       },
@@ -85,7 +112,7 @@ const BookStrategy = () => {
   ];
 
   useEffect(() => {
-    fetch('http://175.211.105.9:8000/book/')
+    fetch('http://127.0.0.1:8000/book/')
       .then((response) => {
         return response.json();
       })
@@ -126,7 +153,7 @@ const BookStrategy = () => {
   }, [searchKeyword]);
 
   const onClickTitleHandler = (e) => {
-    fetch('http://175.211.105.9:8000/book/isbn/?id=' + e.target.id)
+    fetch('http://127.0.0.1:8000/book/isbn/?id=' + e.target.id)
       .then((response) => {
         return response.json();
       })

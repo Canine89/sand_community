@@ -48,9 +48,9 @@ const BookComparision = () => {
   };
 
   const onClickHander = (e) => {
-    console.log('http://175.211.105.9:8000/book/isbn/?id=' + book1);
-    console.log('http://175.211.105.9:8000/book/isbn/?id=' + book2);
-    fetch('http://175.211.105.9:8000/book/isbn/?id=' + book1)
+    console.log('http://127.0.0.1:8000/book/isbn/?id=' + book1);
+    console.log('http://127.0.0.1:8000/book/isbn/?id=' + book2);
+    fetch('http://127.0.0.1:8000/book/isbn/?id=' + book1)
       .then((response) => {
         return response.json();
       })
@@ -59,7 +59,7 @@ const BookComparision = () => {
         setTitle1(_json[0].book.title);
       });
 
-    fetch('http://175.211.105.9:8000/book/isbn/?id=' + book2)
+    fetch('http://127.0.0.1:8000/book/isbn/?id=' + book2)
       .then((response) => {
         return response.json();
       })
@@ -71,7 +71,7 @@ const BookComparision = () => {
 
   useEffect(() => {
     fetch(
-      'http://175.211.105.9:8000/book/publisher/status/' +
+      'http://127.0.0.1:8000/book/publisher/status/' +
         '?year=' +
         new Date().getFullYear().toString() +
         '&month=' +
