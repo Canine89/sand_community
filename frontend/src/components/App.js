@@ -8,7 +8,6 @@ function App() {
   const authorizeUserList = {
     'phk707@easyspub.co.kr': 'Kv7ptg84ErWjc5LzTq3ikkoBD783',
     'phk707kr@gmail.com': 'DmpMpuj0jlZFPdpmAEutSyKnGtm2',
-    'jinaham11@gmail.com': 'mmNnbEajb4SuCiWrL20Jl6ZfjSg1',
   };
 
   useEffect(() => {
