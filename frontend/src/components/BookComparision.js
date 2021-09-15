@@ -164,7 +164,7 @@ const BookComparision = () => {
           </div>
           <div>
             {isbnData2.length > 0 ? (
-              <GraphWithIsbnOptions isbnData={isbnData2} title={title1} />
+              <GraphWithIsbnOptions isbnData={isbnData2} title={title2} />
             ) : (
               <Loading />
             )}
