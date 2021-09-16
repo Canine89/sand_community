@@ -35,6 +35,12 @@ const BookComparision = () => {
       sortable: 'true',
       hide: 'md',
     },
+    {
+      name: '집계 기준(종수)',
+      selector: 'number_of_book',
+      sortable: 'true',
+      hide: 'md',
+    },
   ];
 
   const book1OnChangeHandler = (e) => {
@@ -90,6 +96,7 @@ const BookComparision = () => {
             sales_point_sum: data.sales_point_sum,
             sales_point_avg: data.sales_point_avg,
             rank_avg: data.rank_avg,
+            number_of_book: data.number_of_book,
           };
         });
         setRenderingData(datas);

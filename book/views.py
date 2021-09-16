@@ -119,6 +119,7 @@ class PublisherStatus(APIView):
                 sales_point_sum=Sum("sales_point"),
                 sales_point_avg=Avg("sales_point"),
                 rank_avg=Avg("rank"),
+                number_of_book=Count("book__title")
             )
             .order_by("-sales_point_sum")
         )
