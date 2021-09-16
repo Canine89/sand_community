@@ -10,7 +10,8 @@ function App() {
     'phk707kr@gmail.com': 'DmpMpuj0jlZFPdpmAEutSyKnGtm2',
     "leesue@easyspub.co.kr": "ycMYfMpeEtbMQuIahsAVqb7la8I3",
     "sgwoo@easyspub.co.kr": "Xctr4dgiQmhJ1GBU6BxwbIQxDZ12",
-    "butterfly741@easyspub.co.kr": "x3VcdG2s2NVp3HPJja407XbtyDX2"
+    "butterfly741@easyspub.co.kr": "x3VcdG2s2NVp3HPJja407XbtyDX2",
+    "imsb@easyspub.co.kr": "vYuQKJupDDeNhWNKlWdfNkEAhOQ2",
   };
 
   useEffect(() => {
