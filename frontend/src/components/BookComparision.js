@@ -94,8 +94,8 @@ const BookComparision = () => {
           return {
             publisher: data.book__publisher,
             sales_point_sum: data.sales_point_sum,
-            sales_point_avg: data.sales_point_avg,
-            rank_avg: data.rank_avg,
+            sales_point_avg: Math.round(data.sales_point_avg),
+            rank_avg: Math.round(data.rank_avg),
             number_of_book: data.number_of_book,
           };
         });
