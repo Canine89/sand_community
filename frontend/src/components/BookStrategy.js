@@ -112,7 +112,7 @@ const BookStrategy = () => {
   ];
 
   useEffect(() => {
-    fetch('http://127.0.0.1:8000/book/')
+    fetch('http://175.211.105.9:8000/book/')
       .then((response) => {
         return response.json();
       })
@@ -153,7 +153,7 @@ const BookStrategy = () => {
   }, [searchKeyword]);
 
   const onClickTitleHandler = (e) => {
-    fetch('http://127.0.0.1:8000/book/isbn/?id=' + e.target.id)
+    fetch('http://175.211.105.9:8000/book/isbn/?id=' + e.target.id)
       .then((response) => {
         return response.json();
       })
