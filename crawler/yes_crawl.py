@@ -64,21 +64,23 @@ class Crawler:
             # author, publisher, publish_date, right_price, sales_price, isbn, page
             for number in range(suffix_info_number, suffix_info_number + 20):
                 bookinfo_key = "bookinfo" + str(number)
-                try:
-                    print(result_data[bookinfo_key]["title"] + "을 처리하는 중입니다...")
-                    req = requests.get(result_data[bookinfo_key]["url"])
-                except:
-                    break
+
+                print(result_data[bookinfo_key]["title"] + "을 처리하는 중입니다...")
+                req = requests.get(result_data[bookinfo_key]["url"])
+                print("성공적으로 요청했음.", req.status_code)
+
                 html = req.text
                 soup = BeautifulSoup(html, "lxml")
 
                 result_data[bookinfo_key]["publisher"] = soup.select(
-                    "#yDetailTopWrap > div.topColRgt > div.gd_infoTop > span.gd_pubArea > span.gd_pub > a"
+                    "span.gd_pub > a"
                 )[0].text
+                print("출판사", result_data[bookinfo_key]["publisher"])
 
                 result_data[bookinfo_key]["publish_date"] = soup.select(
-                    "#yDetailTopWrap > div.topColRgt > div.gd_infoTop > span.gd_pubArea > span.gd_date"
+                    "span.gd_pubArea > span.gd_date"
                 )[0].text
+                print("출간일", result_data[bookinfo_key]["publish_date"])
 
                 result_data[bookinfo_key]["right_price"] = make_integer_from_string(
                     soup.select(
