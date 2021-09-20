@@ -15,7 +15,7 @@ class YesSpider(scrapy.Spider):
 
     def start_requests(self):
         base_urls = "http://www.yes24.com/24/Category/More/001001003?ElemNo=104&ElemSeq=7&PageNumber="
-        for page_idx in range(0, 2):
+        for page_idx in range(0, 31):
             yield scrapy.Request(url=base_urls + str(page_idx + 1), callback=self.parse, cb_kwargs=dict(page_idx = page_idx))
 
     def parse(self, response, page_idx):
@@ -34,3 +34,5 @@ class YesSpider(scrapy.Spider):
         print("정가: ", self.make_integer_from_string_except_comma(response.css("#yDetailTopWrap > div.topColRgt > div.gd_infoBot > div.gd_infoTbArea > div > table > tbody > tr > td > span > em::text").get()))
         print("ISBN: ", response.css(" #infoset_specific > div.infoSetCont_wrap > div > table > tbody > tr:nth-of-type(3) > td::text").get())
         print("쪽수: ", self.make_integer_from_string_except_comma(response.css("#infoset_specific > div.infoSetCont_wrap > div > table > tbody > tr:nth-child(2) > td::text").get()))
+        print("카테고리: ", response.css("#infoset_goodsCate > div.infoSetCont_wrap > dl > dd > ul > li > a::text").getall())
+        print("태그: ", response.css("span.tag > a::text").getall())
