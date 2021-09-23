@@ -56,19 +56,23 @@ def save_data(datas, fileName):
     if (
         book_models.Metadata.objects.filter(
             crawl_date__range=(
-                timezone.make_aware(datetime.datetime(
-                    year=file_year,
-                    month=file_month,
-                    day=file_day,
-                )),
-                timezone.make_aware(datetime.datetime(
-                    year=file_year,
-                    month=file_month,
-                    day=file_day,
-                    hour=23,
-                    minute=59,
-                    second=59,
-                )),
+                timezone.make_aware(
+                    datetime.datetime(
+                        year=file_year,
+                        month=file_month,
+                        day=file_day,
+                    )
+                ),
+                timezone.make_aware(
+                    datetime.datetime(
+                        year=file_year,
+                        month=file_month,
+                        day=file_day,
+                        hour=23,
+                        minute=59,
+                        second=59,
+                    )
+                ),
             ),
         ).count()
         == 600
@@ -79,9 +83,9 @@ def save_data(datas, fileName):
     for key, value in datas.items():
         title = value["title"]
         print(file_year, file_month, file_day, "의", title, "처리 중...")
-        try: 
-            author = value["author"] 
-        except: 
+        try:
+            author = value["author"]
+        except:
             author = "저자 없음"
 
         publisher = value["publisher"]
@@ -110,12 +114,14 @@ def save_data(datas, fileName):
                 isbn=isbn,
                 url=url,
                 page=page,
-                crawl_date=timezone.make_aware(datetime.datetime(
-                    year=file_year,
-                    month=file_month,
-                    day=file_day,
-                    hour=12,
-                )),
+                crawl_date=timezone.make_aware(
+                    datetime.datetime(
+                        year=file_year,
+                        month=file_month,
+                        day=file_day,
+                        hour=12,
+                    )
+                ),
             )
 
             for tag in tags:
@@ -129,12 +135,14 @@ def save_data(datas, fileName):
                 rank=rank,
                 sales_point=sales_point,
                 book=book,
-                crawl_date=timezone.make_aware(datetime.datetime(
-                    year=file_year,
-                    month=file_month,
-                    day=file_day,
-                    hour=12,
-                )),
+                crawl_date=timezone.make_aware(
+                    datetime.datetime(
+                        year=file_year,
+                        month=file_month,
+                        day=file_day,
+                        hour=12,
+                    )
+                ),
             )
             print(book.title, "의 Metadata 등록을 마쳤습니다.")
         else:

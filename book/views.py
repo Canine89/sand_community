@@ -16,7 +16,7 @@ class Book(APIView):
             crawl_date__year=_datetime.year,
             crawl_date__month=_datetime.month,
             crawl_date__day=_datetime.day,
-        )
+        ).order_by("rank")
 
         serializer = serializers.MetadataSerializer(
             metadatas,
@@ -119,7 +119,7 @@ class PublisherStatus(APIView):
                 sales_point_sum=Sum("sales_point"),
                 sales_point_avg=Avg("sales_point"),
                 rank_avg=Avg("rank"),
-                number_of_book=Count("book__title")
+                number_of_book=Count("book__title"),
             )
             .order_by("-sales_point_sum")
         )
