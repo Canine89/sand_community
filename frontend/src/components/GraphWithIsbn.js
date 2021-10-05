@@ -40,6 +40,12 @@ const GraphWithIsbn = ({ isbnData, title }) => {
   const graphData = { labels: labels, datasets: datasets };
 
   const options = {
+    plugins: {
+      title: {
+          display: true,
+          text: title
+      }
+    },
     scales: {
       y1: {
         suggestedMin: 1,
@@ -65,7 +71,6 @@ const GraphWithIsbn = ({ isbnData, title }) => {
 
   return (
     <>
-      <div className="text-gray-400 text-sm text-center">{title}</div>
       <Line data={graphData} options={options} />
     </>
   );
