@@ -8,6 +8,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { CSVLink } from 'react-csv';
 import GraphWithIsbn from 'components/GraphWithIsbn';
+import GraphWithIsbnOptions from 'components/GraphWithIsbnOptions';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import Loading from './Loading';
 import ReactTooltip from 'react-tooltip';
@@ -168,6 +169,7 @@ const BookStrategy = () => {
   };
 
   const onChangeGridSizeHandler = (e) => {
+    console.log(e.target);
     const gridSize = 'grid grid-cols-' + e.target.value + ' gap-4';
     setGridSize(gridSize);
   };
@@ -226,29 +228,34 @@ const BookStrategy = () => {
       </div>
 
       <div>
-        <div className={gridSize}>
+        <div className="flex flex-row space-x-4 items-center pl-5 py-2 bg-green-400">
+          <div className="text-white font-extrabold">
+            <span>순위, 판매지수 그래프</span>
+          </div>
+        </div>
+        <div className="flex flex-row space-x-4 items-center pl-5 py-2 bg-green-100">
+          <div className="font-extrabold">
+            <span>그래프 너비 변경</span>
+          </div>
+          <button
+            className="rounded-md border px-2 py-1 mx-2 font-semibold text-white bg-green-500"
+            value="1"
+            onClick={onChangeGridSizeHandler}
+          >
+            사이즈 100%
+          </button>
+          <button
+            className="rounded-md border px-2 py-1 mx-2 font-semibold text-white bg-green-500"
+            value="2"
+            onClick={onChangeGridSizeHandler}
+          >
+            사이즈 50%
+          </button>
+        </div>
+        <div className={gridSize + ' p-2'}>
           <div>
             {isbnData.length > 0 ? (
-              <>
-                <div>
-                  <span className="text-green-800 extra-bold">
-                    그래프 크기 변경 옵션
-                  </span>
-                  <input
-                    className="rounded-md border px-2 py-1 mx-2 font-semibold text-white bg-green-400"
-                    type="button"
-                    value="1"
-                    onClick={onChangeGridSizeHandler}
-                  />
-                  <input
-                    className="rounded-md border px-2 py-1 font-semibold text-white bg-green-400"
-                    type="button"
-                    value="2"
-                    onClick={onChangeGridSizeHandler}
-                  />
-                </div>
-                <GraphWithIsbn isbnData={isbnData} title={title} />
-              </>
+              <GraphWithIsbn isbnData={isbnData} title={title} />
             ) : (
               <Loading />
             )}
