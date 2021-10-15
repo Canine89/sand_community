@@ -200,6 +200,15 @@ const BookStrategy = () => {
     <>
       <div className="flex flex-row space-x-4 items-center pl-5 py-4 bg-red-400">
         <div className="text-white font-extrabold">
+          <select>
+            <option>1</option>
+            <option>1</option>
+            <option>1</option>
+            <option>1</option>
+            <option>1</option>
+          </select>
+        </div>
+        <div className="text-white font-extrabold">
           {new Date().getFullYear().toString() +
             '년 ' +
             (new Date().getMonth() + 1).toString() +

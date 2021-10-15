@@ -26,6 +26,23 @@ class Book(APIView):
         return Response(data=serializer.data)
 
 
+class DateListBook(APIView):
+    def get(self, request, format=None):
+        datelist = (
+            models.Metadata.objects.values("crawl_date")
+            .annotate(count=Count("crawl_date"))
+            .order_by("crawl_date")
+        )
+
+        result = {}
+
+        for date in datelist:
+            result["crawl_date"] = date["crawl_date"]
+            result[""]
+
+        return None
+
+
 class DatetimeRangeBook(APIView):
     def get(self, request, format=None):
         year = request.query_params.get("year", None)

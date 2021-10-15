@@ -11,6 +11,10 @@ urlpatterns = [
         view=views.DatetimeRangeBook.as_view(),
     ),
     url(
+        regex=r"^datelist/$",
+        view=views.DateListBook.as_view(),
+    ),
+    url(
         regex=r"^isbn/$",
         view=views.IsbnBook.as_view(),
     ),
