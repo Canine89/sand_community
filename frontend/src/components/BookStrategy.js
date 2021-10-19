@@ -20,6 +20,8 @@ const BookStrategy = () => {
   const [isbnData, setIsbnData] = useState([]);
   const [title, setTitle] = useState('');
   const [gridSize, setGridSize] = useState('grid grid-cols-1 gap-4');
+  const [datelist, setDateList] = useState([]);
+  const [date, setDate] = useState([]);
 
   const [book1, setBook1] = useState(-1);
   const [isbnData1, setIsbnData1] = useState([]);
@@ -117,12 +119,36 @@ const BookStrategy = () => {
   ];
 
   useEffect(() => {
-    fetch('http://175.211.105.9:8000/book/')
+    fetch('http://175.211.105.9:8000/book/datelist/')
       .then((response) => {
         return response.json();
       })
       .then((_json) => {
-        // console.log(_json);
+        const _datelist = _json.map((data) => {
+          return <option value={data}>{data}</option>;
+        });
+        setDateList(_datelist);
+      });
+  }, []);
+
+  useEffect(() => {
+    const _year = date.slice(0, 4);
+    const _month = parseInt(date.slice(5, 7));
+    const _day = parseInt(date.slice(7, 9));
+    fetch(
+      'http://175.211.105.9:8000/book/date?' +
+        'year=' +
+        _year +
+        '&month=' +
+        _month +
+        '&day=' +
+        _day,
+    )
+      .then((response) => {
+        return response.json();
+      })
+      .then((_json) => {
+        console.log(_json);
         const datas = _json.map((data) => {
           return {
             title: data.book.title,
@@ -141,9 +167,39 @@ const BookStrategy = () => {
           };
         });
         setData(datas);
+        console.log('change');
         setRenderingData(datas);
       });
-  }, []);
+  }, [date]);
+
+  // useEffect(() => {
+  //   fetch('http://175.211.105.9:8000/book?')
+  //     .then((response) => {
+  //       return response.json();
+  //     })
+  //     .then((_json) => {
+  //       // console.log(_json);
+  //       const datas = _json.map((data) => {
+  //         return {
+  //           title: data.book.title,
+  //           author: data.book.author,
+  //           isbn: data.book.isbn,
+  //           page: data.book.page,
+  //           publisher: data.book.publisher,
+  //           publish_date: data.book.publish_date,
+  //           right_price: data.book.right_price,
+  //           tags: data.book.tags.reduce((acc, curr) => {
+  //             return acc + ', ' + curr;
+  //           }),
+  //           url: data.book.url,
+  //           rank: data.rank,
+  //           sales_point: data.sales_point,
+  //         };
+  //       });
+  //       setData(datas);
+  //       setRenderingData(datas);
+  //     });
+  // }, []);
 
   useEffect(() => {
     setRenderingData(
@@ -156,6 +212,10 @@ const BookStrategy = () => {
       }),
     );
   }, [searchKeyword]);
+
+  const optionChangeHandler = (e) => {
+    setDate(e.target.value);
+  };
 
   const onClickTitleHandler = (e) => {
     fetch('http://175.211.105.9:8000/book/isbn/?id=' + e.target.id)
@@ -173,13 +233,11 @@ const BookStrategy = () => {
   };
 
   const onChangeGridSizeHandler = (e) => {
-    console.log(e.target);
     const gridSize = 'grid grid-cols-' + e.target.value + ' gap-4';
     setGridSize(gridSize);
   };
 
   const book1OnChangeHandler = (e) => {
-    console.log(e.target.value);
     setBook1(e.target.value);
   };
 
@@ -199,21 +257,20 @@ const BookStrategy = () => {
   return (
     <>
       <div className="flex flex-row space-x-4 items-center pl-5 py-4 bg-red-400">
+        {datelist.length > 0 ? (
+          <div className="font-extrabold">
+            <select onChange={optionChangeHandler}>{datelist}</select>
+          </div>
+        ) : (
+          'loading...'
+        )}
+
         <div className="text-white font-extrabold">
-          <select>
-            <option>1</option>
-            <option>1</option>
-            <option>1</option>
-            <option>1</option>
-            <option>1</option>
-          </select>
-        </div>
-        <div className="text-white font-extrabold">
-          {new Date().getFullYear().toString() +
+          {date.slice(0, 4) +
             '년 ' +
-            (new Date().getMonth() + 1).toString() +
+            date.slice(5, 7) +
             '월 ' +
-            new Date().getDate().toString() +
+            date.slice(7, 9) +
             '일'}
         </div>
       </div>

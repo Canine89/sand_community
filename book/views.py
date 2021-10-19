@@ -1,4 +1,5 @@
 import re
+import os
 from django.http import JsonResponse
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -27,20 +28,17 @@ class Book(APIView):
 
 
 class DateListBook(APIView):
+    folderName = "./datas/yes24_json_dump/"
+
     def get(self, request, format=None):
-        datelist = (
-            models.Metadata.objects.values("crawl_date")
-            .annotate(count=Count("crawl_date"))
-            .order_by("crawl_date")
-        )
+        datelist = []
+        for _file in os.listdir(self.folderName):
+            if _file == ".DS_Store":
+                continue
 
-        result = {}
+            datelist.append(_file[6:15])
 
-        for date in datelist:
-            result["crawl_date"] = date["crawl_date"]
-            result[""]
-
-        return None
+        return Response(datelist)
 
 
 class DatetimeRangeBook(APIView):
