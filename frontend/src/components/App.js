@@ -17,6 +17,7 @@ function App() {
     "junghyun.park@easyspub.co.kr": "g1MfCFViJKfsWjaAxaPYJLSygVw2",
     "ri7951@easyspub.co.kr": "efLkimn0QGawsWW0RXB3kjfi6G63",
     "jiyeong8011@gmail.com": "96d3iypijaTK2AjwHPswASpO9NX2",
+    "xcode.ko@gmail.com": "fGha88XpqjOMUHEjkcTO2E93HiT2",
   };
 
   useEffect(() => {

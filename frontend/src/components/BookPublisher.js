@@ -114,6 +114,13 @@ const BookPublisher = () => {
           >
             골든래빗
           </button>
+          <button
+            value="동양북스(동양books)"
+            onClick={onClickHander}
+            className="rounded-md mr-2 p-2 hover:bg-purple-700 bg-red-600 text-sm text-white font-semibold border-gray-200"
+          >
+            동양북스
+          </button>
         </div>
       </div>
       <div className="grid grid-cols-3 gap-4 pt-4">
