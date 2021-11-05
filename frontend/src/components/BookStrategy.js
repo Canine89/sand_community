@@ -8,7 +8,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { CSVLink } from 'react-csv';
 import GraphWithIsbn from 'components/GraphWithIsbn';
-import GraphWithIsbnOptions from 'components/GraphWithIsbnOptions';
+import IsbnSearchGraph from 'components/IsbnSearchGraph';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import Loading from './Loading';
 import ReactTooltip from 'react-tooltip';
@@ -22,10 +22,6 @@ const BookStrategy = () => {
   const [gridSize, setGridSize] = useState('grid grid-cols-1 gap-4');
   const [datelist, setDateList] = useState([]);
   const [date, setDate] = useState([]);
-
-  const [book1, setBook1] = useState(-1);
-  const [isbnData1, setIsbnData1] = useState([]);
-  const [title1, setTitle1] = useState('');
 
   const columns = [
     {
@@ -135,71 +131,44 @@ const BookStrategy = () => {
     const _year = date.slice(0, 4);
     const _month = parseInt(date.slice(5, 7));
     const _day = parseInt(date.slice(7, 9));
-    fetch(
-      'http://175.211.105.9:8000/book/date?' +
-        'year=' +
-        _year +
-        '&month=' +
-        _month +
-        '&day=' +
-        _day,
-    )
-      .then((response) => {
-        return response.json();
-      })
-      .then((_json) => {
-        console.log(_json);
-        const datas = _json.map((data) => {
-          return {
-            title: data.book.title,
-            author: data.book.author,
-            isbn: data.book.isbn,
-            page: data.book.page,
-            publisher: data.book.publisher,
-            publish_date: data.book.publish_date,
-            right_price: data.book.right_price,
-            tags: data.book.tags.reduce((acc, curr) => {
-              return acc + ', ' + curr;
-            }),
-            url: data.book.url,
-            rank: data.rank,
-            sales_point: data.sales_point,
-          };
-        });
-        setData(datas);
-        console.log('change');
-        setRenderingData(datas);
-      });
-  }, [date]);
 
-  // useEffect(() => {
-  //   fetch('http://175.211.105.9:8000/book?')
-  //     .then((response) => {
-  //       return response.json();
-  //     })
-  //     .then((_json) => {
-  //       // console.log(_json);
-  //       const datas = _json.map((data) => {
-  //         return {
-  //           title: data.book.title,
-  //           author: data.book.author,
-  //           isbn: data.book.isbn,
-  //           page: data.book.page,
-  //           publisher: data.book.publisher,
-  //           publish_date: data.book.publish_date,
-  //           right_price: data.book.right_price,
-  //           tags: data.book.tags.reduce((acc, curr) => {
-  //             return acc + ', ' + curr;
-  //           }),
-  //           url: data.book.url,
-  //           rank: data.rank,
-  //           sales_point: data.sales_point,
-  //         };
-  //       });
-  //       setData(datas);
-  //       setRenderingData(datas);
-  //     });
-  // }, []);
+    if (date.length > 0) {
+      fetch(
+        'http://175.211.105.9:8000/book/date?' +
+          'year=' +
+          _year +
+          '&month=' +
+          _month +
+          '&day=' +
+          _day,
+      )
+        .then((response) => {
+          return response.json();
+        })
+        .then((_json) => {
+          console.log(_json);
+          const datas = _json.map((data) => {
+            return {
+              title: data.book.title,
+              author: data.book.author,
+              isbn: data.book.isbn,
+              page: data.book.page,
+              publisher: data.book.publisher,
+              publish_date: data.book.publish_date,
+              right_price: data.book.right_price,
+              tags: data.book.tags.reduce((acc, curr) => {
+                return acc + ', ' + curr;
+              }),
+              url: data.book.url,
+              rank: data.rank,
+              sales_point: data.sales_point,
+            };
+          });
+          setData(datas);
+          setRenderingData(datas);
+        });
+    }
+  }, [date]);
 
   useEffect(() => {
     setRenderingData(
@@ -235,23 +204,6 @@ const BookStrategy = () => {
   const onChangeGridSizeHandler = (e) => {
     const gridSize = 'grid grid-cols-' + e.target.value + ' gap-4';
     setGridSize(gridSize);
-  };
-
-  const book1OnChangeHandler = (e) => {
-    setBook1(e.target.value);
-  };
-
-  const onIsbnClickHander = (e) => {
-    console.log('http://175.211.105.9:8000/book/isbn/?id=' + book1);
-
-    fetch('http://175.211.105.9:8000/book/isbn/?id=' + book1)
-      .then((response) => {
-        return response.json();
-      })
-      .then((_json) => {
-        setIsbnData1(_json);
-        setTitle1(_json[0].book.title);
-      });
   };
 
   return (
@@ -352,38 +304,7 @@ const BookStrategy = () => {
       </div>
 
       <div>
-        <div className="flex flex-row space-x-4 items-center pl-5 py-2 bg-green-400">
-          <div className="text-white font-extrabold">
-            <span>ISBN 검색 그래프</span>
-          </div>
-        </div>
-        <div className="flex flex-row space-x-4 items-center pl-5 py-2 bg-green-100">
-          <div className="font-extrabold">
-            <span>ISBN</span>
-            <span className="pl-4">
-              <input
-                className="rounded-md border text-sm text-gray-600 pl-2 py-1 mr-4 font-semibold border-gray-200"
-                name="book1"
-                onChange={book1OnChangeHandler}
-              />
-              <button
-                className="rounded-md border px-2 py-1 font-semibold text-white bg-green-400"
-                onClick={onIsbnClickHander}
-              >
-                검색!
-              </button>
-            </span>
-          </div>
-        </div>
-        <div className={gridSize + ' p-2'}>
-          <div>
-            {isbnData1.length > 0 ? (
-              <GraphWithIsbnOptions isbnData={isbnData1} title={title1} />
-            ) : (
-              <Loading />
-            )}
-          </div>
-        </div>
+        <IsbnSearchGraph />
       </div>
     </>
   );
