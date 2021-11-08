@@ -84,7 +84,7 @@ const BookComparision = () => {
   }, []);
 
   useEffect(() => {
-    fetch('http://localhost:8000/book/count/tags/')
+    fetch('http://175.211.105.9:8000/book/count/tags/')
       .then((response) => {
         return response.json();
       })
