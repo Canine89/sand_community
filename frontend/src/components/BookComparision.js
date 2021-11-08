@@ -2,9 +2,7 @@ import { useState, useEffect } from 'react';
 import DataTable from 'react-data-table-component';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faFileExcel,
-} from '@fortawesome/free-solid-svg-icons';
+import { faFileExcel } from '@fortawesome/free-solid-svg-icons';
 import { CSVLink } from 'react-csv';
 
 const BookComparision = () => {
@@ -64,12 +62,12 @@ const BookComparision = () => {
   useEffect(() => {
     fetch(
       'http://175.211.105.9:8000/book/publisher/status/' +
-      '?year=' +
-      new Date().getFullYear().toString() +
-      '&month=' +
-      (new Date().getMonth() + 1).toString() +
-      '&day=' +
-      new Date().getDate().toString(),
+        '?year=' +
+        new Date().getFullYear().toString() +
+        '&month=' +
+        (new Date().getMonth() + 1).toString() +
+        '&day=' +
+        new Date().getDate().toString(),
     )
       .then((response) => {
         return response.json();
@@ -90,7 +88,7 @@ const BookComparision = () => {
   }, []);
 
   useEffect(() => {
-    fetch('http://175.211.105.9:8000/book/count/tags/')
+    fetch('http://localhost:8000/book/count/tags/')
       .then((response) => {
         return response.json();
       })
@@ -144,7 +142,7 @@ const BookComparision = () => {
             new Date().getDate().toString() +
             '일_' +
             'excel_data_' +
-            "카테고리" +
+            '카테고리' +
             '.xls'
           }
           target="_blank"

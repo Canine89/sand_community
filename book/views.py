@@ -7,7 +7,7 @@ from . import models, serializers
 from datetime import datetime
 from django.db.models import Avg, Case, Count, F, Max, Min, Prefetch, Q, Sum, When
 from itertools import chain
-
+from collections import Counter
 
 class Book(APIView):
     def get(self, format=None):
@@ -117,76 +117,19 @@ class PublisherStatus(APIView):
 
 class CountTags(APIView):
     def get(self, request, format=None):
-        totalTags = {}
+        totalTagsList = []
         for book in models.Book.objects.all():
-            tidyTagsPart = list(set(" ".join(list(book.tags.names())).replace("#", "").split(" ")))
-            
-            try:
-                tidyTagsPart.remove("모바일")
-            except:
-                pass
-            
-            try:
-                tidyTagsPart.remove("IT")
-            except:
-                pass
-            
-            try:
-                tidyTagsPart.remove("국내도서")
-            except:
-                pass
-            
-            try:
-                tidyTagsPart.remove("컴퓨터")
-            except:
-                pass
-            
-            try:
-                tidyTagsPart.remove("프로그래밍")
-            except:
-                pass
-            
-            try:
-                tidyTagsPart.remove("컴공")
-            except:
-                pass
-            
-            try:
-                tidyTagsPart.remove("공학")
-            except:
-                pass
+            totalTagsList.append("|".join(list(book.tags.names())).replace("#", ""))
 
-            try:
-                tidyTagsPart.remove("분철")
-            except:
-                pass
+        totalTagsString = "|".join(totalTagsList)
+        words = re.findall(r"\w+", totalTagsString)
+        counter = Counter(words)
 
-            try:
-                tidyTagsPart.remove("어른을")
-            except:
-                pass
+        temp = dict(sorted(dict(counter).items(), key=lambda x: x[1], reverse=True))
 
-            try:
-                tidyTagsPart.remove("위한")
-            except:
-                pass
-
-            try:
-                tidyTagsPart.remove("자연과학")
-            except:
-                pass
-            
-            for item in tidyTagsPart:
-                try: 
-                    totalTags[item] = totalTags[item] + 1
-                except:
-                    totalTags[item] = 1
-
-        temp = dict(sorted(totalTags.items(), key=lambda x: x[1], reverse=True)[0:100])
         result = []
         for key, value in temp.items():
             result.append({"tagName": key, "tagCount": value})
-
-        print(result)
+        
 
         return Response(result)
