@@ -155,6 +155,26 @@ class CountTags(APIView):
                 tidyTagsPart.remove("공학")
             except:
                 pass
+
+            try:
+                tidyTagsPart.remove("분철")
+            except:
+                pass
+
+            try:
+                tidyTagsPart.remove("어른을")
+            except:
+                pass
+
+            try:
+                tidyTagsPart.remove("위한")
+            except:
+                pass
+
+            try:
+                tidyTagsPart.remove("자연과학")
+            except:
+                pass
             
             for item in tidyTagsPart:
                 try: 
@@ -166,5 +186,7 @@ class CountTags(APIView):
         result = []
         for key, value in temp.items():
             result.append({"tagName": key, "tagCount": value})
+
+        print(result)
 
         return Response(result)

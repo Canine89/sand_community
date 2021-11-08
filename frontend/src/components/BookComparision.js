@@ -1,6 +1,12 @@
 import { useState, useEffect } from 'react';
 import DataTable from 'react-data-table-component';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faFileExcel,
+} from '@fortawesome/free-solid-svg-icons';
+import { CSVLink } from 'react-csv';
+
 const BookComparision = () => {
   const [pubRenderingData, setPubRenderingData] = useState([]);
   const [tagsRenderingData, setTagsRenderingData] = useState([]);
@@ -130,6 +136,22 @@ const BookComparision = () => {
         <div className="text-white font-extrabold">
           <span>카테고리 현황</span>
         </div>
+        <CSVLink
+          data={tagsRenderingData}
+          filename={
+            (new Date().getMonth() + 1).toString() +
+            '월' +
+            new Date().getDate().toString() +
+            '일_' +
+            'excel_data_' +
+            "카테고리" +
+            '.xls'
+          }
+          target="_blank"
+        >
+          <FontAwesomeIcon icon={faFileExcel} className="mr-2" />
+          엑셀 다운로드
+        </CSVLink>
       </div>
 
       <div className="ag-theme-alpine pt-4">
