@@ -2,9 +2,10 @@ import { useState, useEffect } from 'react';
 import DataTable from 'react-data-table-component';
 
 const BookComparision = () => {
-  const [renderingData, setRenderingData] = useState([]);
+  const [pubRenderingData, setPubRenderingData] = useState([]);
+  const [tagsRenderingData, setTagsRenderingData] = useState([]);
 
-  const columns = [
+  const pub_columns = [
     {
       name: '출판사',
       selector: 'publisher',
@@ -35,6 +36,25 @@ const BookComparision = () => {
     },
   ];
 
+  const tag_columns = [
+    {
+      name: '#번호',
+      selector: 'tagNum',
+      sortable: 'true',
+    },
+    {
+      name: '태그 이름',
+      selector: 'tagName',
+      sortable: 'true',
+    },
+    {
+      name: '개수',
+      selector: 'tagCount',
+      sortable: 'true',
+      hide: 'md',
+    },
+  ];
+
   useEffect(() => {
     fetch(
       'http://175.211.105.9:8000/book/publisher/status/' +
@@ -49,7 +69,7 @@ const BookComparision = () => {
         return response.json();
       })
       .then((_json) => {
-        // console.log(_json);
+        console.log(_json);
         const datas = _json.map((data) => {
           return {
             publisher: data.book__publisher,
@@ -59,7 +79,24 @@ const BookComparision = () => {
             number_of_book: data.number_of_book,
           };
         });
-        setRenderingData(datas);
+        setPubRenderingData(datas);
+      });
+  }, []);
+
+  useEffect(() => {
+    fetch('http://localhost:8000/book/count/tags/')
+      .then((response) => {
+        return response.json();
+      })
+      .then((_json) => {
+        const datas = _json.map((data, index) => {
+          return {
+            tagNum: index + 1,
+            tagName: data.tagName,
+            tagCount: data.tagCount,
+          };
+        });
+        setTagsRenderingData(datas);
       });
   }, []);
 
@@ -79,9 +116,27 @@ const BookComparision = () => {
 
       <div className="ag-theme-alpine pt-4">
         <DataTable
-          data={renderingData}
+          data={pubRenderingData}
           noHeader
-          columns={columns}
+          columns={pub_columns}
+          pagination
+          fixedHeader
+          responsive
+          dense
+        />
+      </div>
+
+      <div className="flex flex-row space-x-4 items-center pl-5 py-2 bg-green-300">
+        <div className="text-white font-extrabold">
+          <span>카테고리 현황</span>
+        </div>
+      </div>
+
+      <div className="ag-theme-alpine pt-4">
+        <DataTable
+          data={tagsRenderingData}
+          noHeader
+          columns={tag_columns}
           pagination
           fixedHeader
           responsive

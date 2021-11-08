@@ -113,3 +113,58 @@ class PublisherStatus(APIView):
         )
 
         return Response(result)
+
+
+class CountTags(APIView):
+    def get(self, request, format=None):
+        totalTags = {}
+        for book in models.Book.objects.all():
+            tidyTagsPart = list(set(" ".join(list(book.tags.names())).replace("#", "").split(" ")))
+            
+            try:
+                tidyTagsPart.remove("모바일")
+            except:
+                pass
+            
+            try:
+                tidyTagsPart.remove("IT")
+            except:
+                pass
+            
+            try:
+                tidyTagsPart.remove("국내도서")
+            except:
+                pass
+            
+            try:
+                tidyTagsPart.remove("컴퓨터")
+            except:
+                pass
+            
+            try:
+                tidyTagsPart.remove("프로그래밍")
+            except:
+                pass
+            
+            try:
+                tidyTagsPart.remove("컴공")
+            except:
+                pass
+            
+            try:
+                tidyTagsPart.remove("공학")
+            except:
+                pass
+            
+            for item in tidyTagsPart:
+                try: 
+                    totalTags[item] = totalTags[item] + 1
+                except:
+                    totalTags[item] = 1
+
+        temp = dict(sorted(totalTags.items(), key=lambda x: x[1], reverse=True)[0:100])
+        result = []
+        for key, value in temp.items():
+            result.append({"tagName": key, "tagCount": value})
+
+        return Response(result)

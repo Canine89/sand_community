@@ -26,4 +26,8 @@ urlpatterns = [
         regex=r"^publisher/status/$",
         view=views.PublisherStatus.as_view(),
     ),
+    url(
+        regex=r"^count/tags/$",
+        view=views.CountTags.as_view(),
+    ),
 ]
