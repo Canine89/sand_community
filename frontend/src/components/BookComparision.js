@@ -62,12 +62,12 @@ const BookComparision = () => {
   useEffect(() => {
     fetch(
       'http://175.211.105.9:8000/book/publisher/status/' +
-        '?year=' +
-        new Date().getFullYear().toString() +
-        '&month=' +
-        (new Date().getMonth() + 1).toString() +
-        '&day=' +
-        new Date().getDate().toString(),
+      '?year=' +
+      new Date().getFullYear().toString() +
+      '&month=' +
+      (new Date().getMonth() + 1).toString() +
+      '&day=' +
+      new Date().getDate().toString(),
     )
       .then((response) => {
         return response.json();
@@ -88,6 +88,11 @@ const BookComparision = () => {
   }, []);
 
   useEffect(() => {
+
+    const regexForAnd = /and/gi
+    const regexForTo = /to/gi
+    const regexForSpace = /ssppaaccee/gi
+
     fetch('http://175.211.105.9:8000/book/count/tags/')
       .then((response) => {
         return response.json();
@@ -96,7 +101,7 @@ const BookComparision = () => {
         const datas = _json.map((data, index) => {
           return {
             tagNum: index + 1,
-            tagName: data.tagName,
+            tagName: data.tagName.replace(regexForAnd, "/").replace(regexForTo, "-").replace(regexForSpace, " "),
             tagCount: data.tagCount,
           };
         });

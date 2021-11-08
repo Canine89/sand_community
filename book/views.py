@@ -122,6 +122,9 @@ class CountTags(APIView):
             totalTagsList.append("|".join(list(book.tags.names())).replace("#", ""))
 
         totalTagsString = "|".join(totalTagsList)
+        totalTagsString = totalTagsString.replace(" ", "ssppaaccee")
+        totalTagsString = totalTagsString.replace("/", "and")
+        totalTagsString = totalTagsString.replace("-", "to")   
         words = re.findall(r"\w+", totalTagsString)
         counter = Counter(words)
 
