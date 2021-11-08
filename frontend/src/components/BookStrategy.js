@@ -135,12 +135,12 @@ const BookStrategy = () => {
     if (date.length > 0) {
       fetch(
         'http://175.211.105.9:8000/book/date?' +
-        'year=' +
-        _year +
-        '&month=' +
-        _month +
-        '&day=' +
-        _day,
+          'year=' +
+          _year +
+          '&month=' +
+          _month +
+          '&day=' +
+          _day,
       )
         .then((response) => {
           return response.json();

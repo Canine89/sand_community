@@ -7,7 +7,10 @@ import { CSVLink } from 'react-csv';
 
 const BookComparision = () => {
   const [pubRenderingData, setPubRenderingData] = useState([]);
+
+  const [tagsData, setTagsData] = useState([]);
   const [tagsRenderingData, setTagsRenderingData] = useState([]);
+  const [searchKeyword, setSearchKeyword] = useState('');
 
   const pub_columns = [
     {
@@ -62,12 +65,12 @@ const BookComparision = () => {
   useEffect(() => {
     fetch(
       'http://175.211.105.9:8000/book/publisher/status/' +
-      '?year=' +
-      new Date().getFullYear().toString() +
-      '&month=' +
-      (new Date().getMonth() + 1).toString() +
-      '&day=' +
-      new Date().getDate().toString(),
+        '?year=' +
+        new Date().getFullYear().toString() +
+        '&month=' +
+        (new Date().getMonth() + 1).toString() +
+        '&day=' +
+        new Date().getDate().toString(),
     )
       .then((response) => {
         return response.json();
@@ -88,10 +91,9 @@ const BookComparision = () => {
   }, []);
 
   useEffect(() => {
-
-    const regexForAnd = /and/gi
-    const regexForTo = /to/gi
-    const regexForSpace = /ssppaaccee/gi
+    const regexForAnd = /and/gi;
+    const regexForTo = /to/gi;
+    const regexForSpace = /ssppaaccee/gi;
 
     fetch('http://175.211.105.9:8000/book/count/tags/')
       .then((response) => {
@@ -101,13 +103,29 @@ const BookComparision = () => {
         const datas = _json.map((data, index) => {
           return {
             tagNum: index + 1,
-            tagName: data.tagName.replace(regexForAnd, "/").replace(regexForTo, "-").replace(regexForSpace, " "),
+            tagName: data.tagName
+              .replace(regexForAnd, '/')
+              .replace(regexForTo, '-')
+              .replace(regexForSpace, ' '),
             tagCount: data.tagCount,
           };
         });
+        setTagsData(datas);
         setTagsRenderingData(datas);
       });
   }, []);
+
+  useEffect(() => {
+    setTagsRenderingData(
+      tagsData.filter((data) => {
+        return data.tagName.toLowerCase().includes(searchKeyword.toLowerCase());
+      }),
+    );
+  }, [searchKeyword]);
+
+  const onChangeHandler = (e) => {
+    setSearchKeyword(e.target.value);
+  };
 
   return (
     <>
@@ -138,6 +156,14 @@ const BookComparision = () => {
       <div className="flex flex-row space-x-4 items-center pl-5 py-2 bg-green-300">
         <div className="text-white font-extrabold">
           <span>카테고리 현황</span>
+        </div>
+        <div>
+          <input
+            className="rounded-md border text-sm text-gray-600 pl-2 py-1 mr-4 font-semibold border-gray-200"
+            name="searchKeyword"
+            value={searchKeyword}
+            onChange={onChangeHandler}
+          />
         </div>
         <CSVLink
           data={tagsRenderingData}
