@@ -58,18 +58,18 @@ const BookComparision = () => {
   useEffect(() => {
     fetch(
       'http://175.211.105.9:8000/book/publisher/status/' +
-        '?year=' +
-        new Date().getFullYear().toString() +
-        '&month=' +
-        (new Date().getMonth() + 1).toString() +
-        '&day=' +
-        new Date().getDate().toString(),
+      '?year=' +
+      new Date().getFullYear().toString() +
+      '&month=' +
+      (new Date().getMonth() + 1).toString() +
+      '&day=' +
+      new Date().getDate().toString(),
     )
       .then((response) => {
         return response.json();
       })
       .then((_json) => {
-        console.log(_json);
+        // console.log(_json);
         const datas = _json.map((data) => {
           return {
             publisher: data.book__publisher,
