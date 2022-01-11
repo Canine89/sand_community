@@ -16,7 +16,7 @@ class YesSpider(scrapy.Spider):
 
     def start_requests(self):
         base_urls = "http://www.yes24.com/24/Category/More/001001003?ElemNo=104&ElemSeq=7&PageNumber="
-        for page_idx in range(0, 30):
+        for page_idx in range(0, 50):
             yield scrapy.Request(
                 url=base_urls + str(page_idx + 1),
                 callback=self.parse,
