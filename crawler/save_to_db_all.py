@@ -75,9 +75,9 @@ def save_data(datas, fileName):
                 ),
             ),
         ).count()
-        == 600
+        >= 600
     ):
-        print("일 데이터가 600이므로 다음 날로 넘어갑니다.")
+        print("Metadata already crawled.")
         return -1
 
     for key, value in datas.items():

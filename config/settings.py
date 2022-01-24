@@ -46,7 +46,7 @@ THIRD_PARTY_APPS = [
     "corsheaders",
     "taggit_serializer",
     "rest_framework",
-    'django_extensions'
+    "django_extensions",
 ]
 
 INSTALLED_APPS = DJANGO_APPS + PROJECT_APPS + THIRD_PARTY_APPS
@@ -141,7 +141,3 @@ STATIC_URL = "/static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 TAGGIT_CASE_INSENSITIVE = True
-
-CORS_ORIGIN_ALLOW_ALL = True
-STATICFILES_DIRS = [BASE_DIR / "frontend/build/static"]
-DJANGO_ALLOW_ASYNC_UNSAFE = True
