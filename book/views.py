@@ -9,6 +9,7 @@ from django.db.models import Avg, Case, Count, F, Max, Min, Prefetch, Q, Sum, Wh
 from itertools import chain
 from collections import Counter
 
+
 class Book(APIView):
     def get(self, format=None):
         _datetime = datetime.now()
@@ -37,8 +38,7 @@ class DateListBook(APIView):
                 continue
 
             datelist.append(_file[6:15])
-
-        return Response(datelist)
+        return Response(sorted(datelist, reverse=True))
 
 
 class DatetimeRangeBook(APIView):
@@ -124,7 +124,7 @@ class CountTags(APIView):
         totalTagsString = "|".join(totalTagsList)
         totalTagsString = totalTagsString.replace(" ", "ssppaaccee")
         totalTagsString = totalTagsString.replace("/", "and")
-        totalTagsString = totalTagsString.replace("-", "to")   
+        totalTagsString = totalTagsString.replace("-", "to")
         words = re.findall(r"\w+", totalTagsString)
         counter = Counter(words)
 
@@ -133,6 +133,13 @@ class CountTags(APIView):
         result = []
         for key, value in temp.items():
             result.append({"tagName": key, "tagCount": value})
-        
 
         return Response(result)
+
+
+class EasysBooks(APIView):
+    def get(self, request, format=None):
+        books = models.Book.objects.filter(publisher="이지스퍼블리싱")
+        serializer = serializers.BookSerializer(books, many=True)
+
+        return Response(data=serializer.data)

@@ -30,4 +30,8 @@ urlpatterns = [
         regex=r"^count/tags/$",
         view=views.CountTags.as_view(),
     ),
+    url(
+        regex=r"^publisher/easyspub/$",
+        view=views.EasysBooks.as_view(),
+    ),
 ]
