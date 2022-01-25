@@ -54,8 +54,6 @@ class DatetimeRangeBook(APIView):
             crawl_date__day=day,
         )
 
-        print(metadatas)
-
         serializer = serializers.MetadataSerializer(
             metadatas,
             many=True,
