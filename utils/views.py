@@ -20,7 +20,7 @@ class TransformPdf(APIView):
 
             output_pdf_file = PdfFileWriter()
 
-            print("total page is", pdf_file.getNumPages())
+            # print("total page is", pdf_file.getNumPages())
             full_width_size = 0.0
             for i in range(pdf_file.getNumPages()):
                 page = pdf_file.getPage(i)
@@ -28,17 +28,17 @@ class TransformPdf(APIView):
                 if full_width_size < page.mediaBox.upperRight[0].as_numeric():
                     full_width_size = page.mediaBox.upperRight[0]
 
-            print("full width size is", full_width_size)
+            # print("full width size is", full_width_size)
 
             for i in range(pdf_file.getNumPages()):
-                print("this is", i, "page.")
-                print("upperRight is", pdf_file.getPage(i).mediaBox.upperRight[0])
+                # print("this is", i, "page.")
+                # print("upperRight is", pdf_file.getPage(i).mediaBox.upperRight[0])
                 if(full_width_size != pdf_file.getPage(i).mediaBox.upperRight[0]):
                     page = pdf_file.getPage(i)
                     output_pdf_file.addPage(page)
                     continue
 
-                print("cutting work...")
+                # print("cutting work...")
                 # print(pdf_file.getPage(i))
                 page_left = pdf_file_for_left.getPage(i)
                 page_right = pdf_file_for_right.getPage(i)    

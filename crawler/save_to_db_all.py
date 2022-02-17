@@ -102,7 +102,6 @@ def save_data(datas, fileName):
 
         try:
             book = book_models.Book.objects.get(isbn=isbn)
-            print("이미 등록된 책이므로 DB 등록을 넘어갑니다.")
         except:
             book = book_models.Book.objects.create(
                 title=title,
