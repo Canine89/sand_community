@@ -39,7 +39,7 @@ DJANGO_APPS = [
     "django.contrib.staticfiles",
 ]
 
-PROJECT_APPS = ["book.apps.BookConfig"]
+PROJECT_APPS = ["book.apps.BookConfig", "utils.apps.UtilsConfig"]
 
 THIRD_PARTY_APPS = [
     "taggit",
