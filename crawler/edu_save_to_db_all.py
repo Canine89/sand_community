@@ -13,7 +13,7 @@ folderName = "./datas/edu_yes24_json_dump/"
 sys.path.append(str(Path(__file__).resolve().parent.parent))
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings")
 django.setup()
-from book import models as book_models
+from edu_book import models as book_models
 
 
 def make_integer_from_string(string_data):
@@ -54,7 +54,7 @@ def save_data(datas, fileName):
     file_day = int(fileName[13:15])
 
     if (
-        book_models.Metadata.objects.filter(
+        book_models.EduMetadata.objects.filter(
             crawl_date__range=(
                 timezone.make_aware(
                     datetime.datetime(
@@ -101,9 +101,9 @@ def save_data(datas, fileName):
         market = "yes24"
 
         try:
-            book = book_models.Book.objects.get(isbn=isbn)
+            book = book_models.EduBook.objects.get(isbn=isbn)
         except:
-            book = book_models.Book.objects.create(
+            book = book_models.EduBook.objects.create(
                 title=title,
                 author=author,
                 publisher=publisher,
@@ -129,7 +129,7 @@ def save_data(datas, fileName):
             print("새 책의 DB 등록을 마쳤습니다.")
 
         if book is not None:
-            book_models.Metadata.objects.create(
+            book_models.EduMetadata.objects.create(
                 market=market,
                 rank=rank,
                 sales_point=sales_point,

@@ -14,7 +14,7 @@ class EduBook(core_models.TimeStampedModel):
     isbn = models.BigIntegerField(null=True, blank=True)
     url = models.CharField(max_length=1024, default="none", null=False)
     page = models.BigIntegerField(null=True, blank=True)
-    edu_tags = TaggableManager()
+    tags = TaggableManager()
     crawl_date = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
