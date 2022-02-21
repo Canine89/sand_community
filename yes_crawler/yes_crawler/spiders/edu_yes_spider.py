@@ -86,7 +86,7 @@ class YesSpider(scrapy.Spider):
             "tags": response.css(
                 "#infoset_goodsCate > div.infoSetCont_wrap > dl > dd > ul > li > a::text"
             ).getall()
-            + response.css("span.tag > a::text").getall(),
+            + response.css("#tagArea > span > a::text").getall(),
         }
 
         yield result
