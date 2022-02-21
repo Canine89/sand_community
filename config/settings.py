@@ -39,7 +39,11 @@ DJANGO_APPS = [
     "django.contrib.staticfiles",
 ]
 
-PROJECT_APPS = ["book.apps.BookConfig", "utils.apps.UtilsConfig"]
+PROJECT_APPS = [
+    "book.apps.BookConfig",
+    "utils.apps.UtilsConfig",
+    "edu_book.apps.EduBookConfig",
+]
 
 THIRD_PARTY_APPS = [
     "taggit",
@@ -141,5 +145,5 @@ STATIC_URL = "/static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 TAGGIT_CASE_INSENSITIVE = True
-DJANGO_ALLOW_ASYNC_UNSAFE = True 
+DJANGO_ALLOW_ASYNC_UNSAFE = True
 CORS_ORIGIN_ALLOW_ALL = True

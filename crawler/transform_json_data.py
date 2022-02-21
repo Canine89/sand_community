@@ -6,6 +6,9 @@ results = {}
 with open("yes_crawler/" + _file, encoding="utf-8") as json_file:
     json_data = json.load(json_file)
     for data in json_data:
+        print(data)
+        if data["isbn"] == " ":
+            data["isbn"] = -1
         results["bookinfo" + str(data["rank"])] = data
 
 with open(
