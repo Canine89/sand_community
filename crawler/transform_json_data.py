@@ -9,7 +9,7 @@ with open("yes_crawler/" + _file, encoding="utf-8") as json_file:
         print(data)
         if data["isbn"] == " ":
             data["isbn"] = -1
-        results["bookinfo" + str(data["rank"])] = data
+        results[data["category"] + "_bookinfo" + str(data["rank"])] = data
 
 with open(
     "yes24_" + datetime.today().strftime("%Y_%m%d_%H%M_%S") + ".json",

@@ -88,6 +88,7 @@ def save_data(datas, fileName):
         except:
             author = "저자 없음"
 
+        category = value["category"]
         publisher = value["publisher"]
         publish_date = make_datetime_from_string(value["publish_date"])
         right_price = value["right_price"]
@@ -106,6 +107,7 @@ def save_data(datas, fileName):
             book = book_models.EduBook.objects.create(
                 title=title,
                 author=author,
+                category=category,
                 publisher=publisher,
                 publish_date=publish_date,
                 right_price=right_price,
