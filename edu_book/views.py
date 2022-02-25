@@ -49,8 +49,9 @@ class DatetimeRangeEduBook(APIView):
 class IsbnEduBook(APIView):
     def get(self, request, format=None):
         isbn = request.query_params.get("id", None)
+        category = request.query_params.get("category", None)
 
-        metadatas = models.EduMetadata.objects.filter(Q(book__isbn=isbn)).order_by(
+        metadatas = models.EduMetadata.objects.filter(Q(book__isbn=isbn, book__category=category)).order_by(
             "crawl_date"
         )
 
