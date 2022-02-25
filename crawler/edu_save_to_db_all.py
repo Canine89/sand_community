@@ -75,7 +75,7 @@ def save_data(datas, fileName):
                 ),
             ),
         ).count()
-        >= 600
+        >= 10
     ):
         print("Metadata already crawled.")
         return -1
@@ -102,7 +102,7 @@ def save_data(datas, fileName):
         market = "yes24"
 
         try:
-            book = book_models.EduBook.objects.get(isbn=isbn)
+            book = book_models.EduBook.objects.get(isbn=isbn, category=category)
         except:
             book = book_models.EduBook.objects.create(
                 title=title,
