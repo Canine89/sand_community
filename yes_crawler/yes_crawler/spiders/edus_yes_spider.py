@@ -16,12 +16,12 @@ class YesSpider(scrapy.Spider):
 
     def start_requests(self):
         base_urls = {
-            "초등참고서": "http://www.yes24.com/24/Category/More/001001044?ElemNo=104&ElemSeq=1",
+            # "초등참고서": "http://www.yes24.com/24/Category/More/001001044?ElemNo=104&ElemSeq=1",
             # "미취학아동/국어/한글": "http://www.yes24.com/24/Category/More/001001044007008?ElemNo=104&ElemSeq=1",
             # "미취학아동/수학": "http://www.yes24.com/24/Category/More/001001044007009?ElemNo=104&ElemSeq=1",
             # "미취학아동/영어": "http://www.yes24.com/24/Category/More/001001044007010?ElemNo=104&ElemSeq=1",
             # "미취학아동/기타": "http://www.yes24.com/24/Category/More/001001044007011?ElemNo=104&ElemSeq=1",
-            # "미취학아동/기탄 시리즈": "http://www.yes24.com/24/Category/More/001001044007005?ElemNo=104&ElemSeq=1",
+            "미취학아동/기탄 시리즈": "http://www.yes24.com/24/Category/More/001001044007005?ElemNo=104&ElemSeq=1",
             # "미취학아동/7세 초능력 시리즈": "http://www.yes24.com/24/Category/Display/001001044007006",
             "1학년/국어(초등1)": "http://www.yes24.com/24/Category/More/001001044001001?ElemNo=104&ElemSeq=1",
             # "1학년/수학(초등1)": "http://www.yes24.com/24/Category/More/001001044001002?ElemNo=104&ElemSeq=1",
@@ -60,45 +60,46 @@ class YesSpider(scrapy.Spider):
             # "국어전문교재/단계별 독해력/어휘력": "http://www.yes24.com/24/Category/More/001001044010001?ElemNo=104&ElemSeq=1",
             # "국어전문교재/독서/논술": "http://www.yes24.com/24/Category/More/001001044010002?ElemNo=104&ElemSeq=1",
             # "국어전문교재/받아쓰기/맞춤법": "http://www.yes24.com/24/Category/More/001001044010003?ElemNo=104&ElemSeq=1",
-            # "한자": "http://www.yes24.com/24/Category/More/001001044014?ElemNo=104&ElemSeq=1",
+            "한자": "http://www.yes24.com/24/Category/More/001001044014?ElemNo=104&ElemSeq=1",
             # "한국사": "http://www.yes24.com/24/Category/More/001001044018?ElemNo=104&ElemSeq=1",
             # "영재교육원대비": "http://www.yes24.com/24/Category/More/001001044015?ElemNo=104&ElemSeq=1",
         }
+        patch_size_80_str = "&FetchSize=80"
+        patch_size_20_str = "&FetchSize=20"
         page_number_str = "&PageNumber="
 
         for category in base_urls:
             for page_idx in range(0, 50):
-                try:
-                    yield scrapy.Request(
-                        url=base_urls[category] + page_number_str + str(page_idx + 1),
-                        callback=self.parse,
-                        cb_kwargs=dict(page_idx=page_idx, category=category),
-                    )
-                except:
-                    print("there is no pages...")
+                yield scrapy.Request(
+                    url=base_urls[category]
+                    + patch_size_20_str
+                    + page_number_str
+                    + str(page_idx + 1),
+                    callback=self.parse,
+                    cb_kwargs=dict(page_idx=page_idx, category=category),
+                    dont_filter=True,
+                )
 
     def parse(self, response, page_idx, category):
         urls = response.css(
             "#category_layout > ul > li > div > div.goods_info > div.goods_name > a:nth-child(2)::attr(href)"
         ).getall()
 
-        if len(urls) <= 0:
-            print("there is no urls")
-            return
-
-        for idx in range(0, 20):
-            try:
-                yield scrapy.Request(
-                    url="http://www.yes24.com/" + urls[idx],
-                    callback=self.infoParse,
-                    cb_kwargs=dict(
-                        rank=(page_idx * 20 + idx + 1),
-                        url="http://www.yes24.com" + urls[idx],
-                        category=category,
-                    ),
-                )
-            except:
-                print("there is no datas...")
+        if len(urls) > 0:
+            for idx in range(0, 20):
+                try:
+                    yield scrapy.Request(
+                        url="http://www.yes24.com/" + urls[idx],
+                        callback=self.infoParse,
+                        cb_kwargs=dict(
+                            rank=(page_idx * 20 + idx + 1),
+                            url="http://www.yes24.com" + urls[idx],
+                            category=category,
+                        ),
+                        dont_filter=True,
+                    )
+                except:
+                    print("there is no datas...")
 
     def infoParse(self, response, rank, url, category):
         result = {
