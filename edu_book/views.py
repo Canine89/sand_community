@@ -28,8 +28,10 @@ class DatetimeRangeEduBook(APIView):
         year = request.query_params.get("year", None)
         month = request.query_params.get("month", None)
         day = request.query_params.get("day", None)
+        category = request.query_params.get("category", None)
 
         metadatas = models.EduMetadata.objects.filter(
+            book__category=category,
             market="yes24",
             crawl_date__year=year,
             crawl_date__month=month,
