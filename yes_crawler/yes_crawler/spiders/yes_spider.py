@@ -1,6 +1,8 @@
 import scrapy
 import re
 from cssselect import GenericTranslator
+from scrapy.crawler import CrawlerProcess
+from datetime import datetime
 
 
 class YesSpider(scrapy.Spider):
@@ -91,65 +93,80 @@ class YesSpider(scrapy.Spider):
 
         yield result
 
-        # print(
-        #     "제목: ",
-        #     response.css(
-        #         "#yDetailTopWrap > div.topColRgt > div.gd_infoTop > div > h2::text"
-        #     ).get(),
-        # )
-        # print("순위: ", rank)
-        # print(
-        #     "출판사: ",
-        #     response.css(
-        #         "#yDetailTopWrap > div.topColRgt > div.gd_infoTop > span.gd_pubArea > span.gd_pub > a::text"
-        #     ).get(),
-        # )
-        # print(
-        #     "저자: ",
-        #     response.css(
-        #         "#yDetailTopWrap > div.topColRgt > div.gd_infoTop > span.gd_pubArea > span.gd_auth > a::text"
-        #     ).getall(),
-        # )
-        # print(
-        #     "출간일: ",
-        #     response.css(
-        #         "#yDetailTopWrap > div.topColRgt > div.gd_infoTop > span.gd_pubArea > span.gd_date::text"
-        #     ).get(),
-        # )
-        # print(
-        #     "판매지수: ",
-        #     self.make_integer_from_string_except_comma(
-        #         response.css(
-        #             "#yDetailTopWrap > div.topColRgt > div.gd_infoTop > span.gd_ratingArea > span.gd_sellNum::text"
-        #         ).getall()[1]
-        #     ),
-        # )
-        # print(
-        #     "정가: ",
-        #     self.make_integer_from_string_except_comma(
-        #         response.css(
-        #             "#yDetailTopWrap > div.topColRgt > div.gd_infoBot > div.gd_infoTbArea > div > table > tbody > tr > td > span > em::text"
-        #         ).get()
-        #     ),
-        # )
-        # print(
-        #     "ISBN: ",
-        #     response.css(
-        #         " #infoset_specific > div.infoSetCont_wrap > div > table > tbody > tr:nth-of-type(3) > td::text"
-        #     ).get(),
-        # )
-        # print(
-        #     "쪽수: ",
-        #     self.make_integer_from_string_except_comma(
-        #         response.css(
-        #             "#infoset_specific > div.infoSetCont_wrap > div > table > tbody > tr:nth-child(2) > td::text"
-        #         ).get()
-        #     ),
-        # )
-        # print(
-        #     "카테고리: ",
-        #     response.css(
-        #         "#infoset_goodsCate > div.infoSetCont_wrap > dl > dd > ul > li > a::text"
-        #     ).getall(),
-        # )
-        # print("태그: ", response.css("span.tag > a::text").getall())
+
+if __name__ == "__main__":
+    process = CrawlerProcess(
+        settings={
+            "FEEDS": {
+                "doit"
+                + datetime.today().strftime("%Y_%m%d_%H%M_%S")
+                + ".json": {"format": "json"},
+            },
+            "FEED_EXPORT_ENCODING": "utf-8",
+        }
+    )
+    process.crawl(YesSpider)
+    process.start()
+
+    # print(
+    #     "제목: ",
+    #     response.css(
+    #         "#yDetailTopWrap > div.topColRgt > div.gd_infoTop > div > h2::text"
+    #     ).get(),
+    # )
+    # print("순위: ", rank)
+    # print(
+    #     "출판사: ",
+    #     response.css(
+    #         "#yDetailTopWrap > div.topColRgt > div.gd_infoTop > span.gd_pubArea > span.gd_pub > a::text"
+    #     ).get(),
+    # )
+    # print(
+    #     "저자: ",
+    #     response.css(
+    #         "#yDetailTopWrap > div.topColRgt > div.gd_infoTop > span.gd_pubArea > span.gd_auth > a::text"
+    #     ).getall(),
+    # )
+    # print(
+    #     "출간일: ",
+    #     response.css(
+    #         "#yDetailTopWrap > div.topColRgt > div.gd_infoTop > span.gd_pubArea > span.gd_date::text"
+    #     ).get(),
+    # )
+    # print(
+    #     "판매지수: ",
+    #     self.make_integer_from_string_except_comma(
+    #         response.css(
+    #             "#yDetailTopWrap > div.topColRgt > div.gd_infoTop > span.gd_ratingArea > span.gd_sellNum::text"
+    #         ).getall()[1]
+    #     ),
+    # )
+    # print(
+    #     "정가: ",
+    #     self.make_integer_from_string_except_comma(
+    #         response.css(
+    #             "#yDetailTopWrap > div.topColRgt > div.gd_infoBot > div.gd_infoTbArea > div > table > tbody > tr > td > span > em::text"
+    #         ).get()
+    #     ),
+    # )
+    # print(
+    #     "ISBN: ",
+    #     response.css(
+    #         " #infoset_specific > div.infoSetCont_wrap > div > table > tbody > tr:nth-of-type(3) > td::text"
+    #     ).get(),
+    # )
+    # print(
+    #     "쪽수: ",
+    #     self.make_integer_from_string_except_comma(
+    #         response.css(
+    #             "#infoset_specific > div.infoSetCont_wrap > div > table > tbody > tr:nth-child(2) > td::text"
+    #         ).get()
+    #     ),
+    # )
+    # print(
+    #     "카테고리: ",
+    #     response.css(
+    #         "#infoset_goodsCate > div.infoSetCont_wrap > dl > dd > ul > li > a::text"
+    #     ).getall(),
+    # )
+    # print("태그: ", response.css("span.tag > a::text").getall())

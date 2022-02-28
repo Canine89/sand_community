@@ -1,6 +1,8 @@
 import scrapy
 import re
 from cssselect import GenericTranslator
+from scrapy.crawler import CrawlerProcess
+from datetime import datetime
 
 
 class YesSpider(scrapy.Spider):
@@ -154,3 +156,18 @@ class YesSpider(scrapy.Spider):
         }
 
         yield result
+
+
+if __name__ == "__main__":
+    process = CrawlerProcess(
+        settings={
+            "FEEDS": {
+                "edu"
+                + datetime.today().strftime("%Y_%m%d_%H%M_%S")
+                + ".json": {"format": "json"},
+            },
+            "FEED_EXPORT_ENCODING": "utf-8",
+        }
+    )
+    process.crawl(YesSpider)
+    process.start()

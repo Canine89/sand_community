@@ -7,14 +7,14 @@ results = {}
 with open("yes_crawler/" + _file, encoding="utf-8") as json_file:
     json_data = json.load(json_file)
     for data in json_data:
-        print(data)
+        # print(data)
         if data["isbn"] == " ":
             data["isbn"] = -1
 
         results["bookinfo" + str(data["rank"])] = data
 
 with open(
-    "yes24_" + datetime.today().strftime("%Y_%m%d_%H%M_%S") + ".json",
+    "doit_yes24_" + datetime.today().strftime("%Y_%m%d_%H") + ".json",
     "w",
     encoding="UTF-8",
 ) as outfile:
