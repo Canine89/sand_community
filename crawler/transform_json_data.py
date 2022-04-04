@@ -14,7 +14,7 @@ with open("yes_crawler/" + _file, encoding="utf-8") as json_file:
         results["bookinfo" + str(data["rank"])] = data
 
 with open(
-    "doit_yes24_" + datetime.today().strftime("%Y_%m%d_%H") + ".json",
+    "yes24_" + datetime.today().strftime("%Y_%m%d_%H") + ".json",
     "w",
     encoding="UTF-8",
 ) as outfile:

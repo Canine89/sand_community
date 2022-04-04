@@ -75,7 +75,7 @@ def save_data(datas, fileName):
                 ),
             ),
         ).count()
-        >= 10
+        >= 50
     ):
         print("Metadata already crawled.")
         return -1
