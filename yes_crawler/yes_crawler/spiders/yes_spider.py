@@ -90,7 +90,7 @@ class YesSpider(scrapy.Spider):
             ).getall()
             + response.css("span.tag > a::text").getall(),
         }
-
+        # infoset_specific > div.infoSetCont_wrap > div > table > tbody > tr:nth-child(4) > td
         yield result
 
 
