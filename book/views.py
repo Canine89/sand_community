@@ -14,7 +14,23 @@ class Book(APIView):
     def get(self, format=None):
         _datetime = datetime.now()
         metadatas = models.Metadata.objects.filter(
-            market="yes24",
+            crawl_date__year=_datetime.year,
+            crawl_date__month=_datetime.month,
+            crawl_date__day=_datetime.day,
+        ).order_by("rank")
+
+        serializer = serializers.MetadataSerializer(
+            metadatas,
+            many=True,
+        )
+
+        return Response(data=serializer.data)
+
+
+class FullInfoBook(APIView):
+    def get(self, format=None):
+        _datetime = datetime.now()
+        metadatas = models.Metadata.objects.filter(
             crawl_date__year=_datetime.year,
             crawl_date__month=_datetime.month,
             crawl_date__day=_datetime.day,
@@ -29,7 +45,7 @@ class Book(APIView):
 
 
 class DateListBook(APIView):
-    folderName = "./datas/yes24_json_dump/"
+    folderName = "./yes24/linting_dump_datas"
 
     def get(self, request, format=None):
         datelist = []
@@ -48,7 +64,6 @@ class DatetimeRangeBook(APIView):
         day = request.query_params.get("day", None)
 
         metadatas = models.Metadata.objects.filter(
-            market="yes24",
             crawl_date__year=year,
             crawl_date__month=month,
             crawl_date__day=day,
@@ -62,11 +77,11 @@ class DatetimeRangeBook(APIView):
         return Response(data=serializer.data)
 
 
-class IsbnBook(APIView):
+class FakeIsbnBook(APIView):
     def get(self, request, format=None):
         isbn = request.query_params.get("id", None)
 
-        metadatas = models.Metadata.objects.filter(Q(book__isbn=isbn)).order_by(
+        metadatas = models.Metadata.objects.filter(Q(book__fake_isbn=isbn)).order_by(
             "crawl_date"
         )
 
@@ -115,24 +130,25 @@ class PublisherStatus(APIView):
         return Response(result)
 
 
-class CountTags(APIView):
+class Yes24Status(APIView):
     def get(self, request, format=None):
-        totalTagsList = []
-        for book in models.Book.objects.all():
-            totalTagsList.append("|".join(list(book.tags.names())).replace("#", ""))
+        year = request.query_params.get("year", None)
+        month = request.query_params.get("month", None)
+        day = request.query_params.get("day", None)
 
-        totalTagsString = "|".join(totalTagsList)
-        totalTagsString = totalTagsString.replace(" ", "ssppaaccee")
-        totalTagsString = totalTagsString.replace("/", "and")
-        totalTagsString = totalTagsString.replace("-", "to")
-        words = re.findall(r"\w+", totalTagsString)
-        counter = Counter(words)
-
-        temp = dict(sorted(dict(counter).items(), key=lambda x: x[1], reverse=True))
-
-        result = []
-        for key, value in temp.items():
-            result.append({"tagName": key, "tagCount": value})
+        result = (
+            models.Metadata.objects.filter(
+                crawl_date__year=year, crawl_date__month=month, crawl_date__day=day
+            )
+            .values("book__publisher")
+            .annotate(
+                sales_point_sum=Sum("sales_point"),
+                sales_point_avg=Avg("sales_point"),
+                rank_avg=Avg("rank"),
+                number_of_book=Count("book__title"),
+            )
+            .order_by("-sales_point_sum")
+        )
 
         return Response(result)
 

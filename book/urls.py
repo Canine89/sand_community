@@ -1,37 +1,37 @@
-from django.conf.urls import url
+from django.urls import include, re_path
 from . import views
 
 urlpatterns = [
-    url(
-        regex=r"^$",
+    re_path(
+        "^$",
         view=views.Book.as_view(),
     ),
-    url(
-        regex=r"^date/$",
+    re_path(
+        "^date/$",
         view=views.DatetimeRangeBook.as_view(),
     ),
-    url(
-        regex=r"^datelist/$",
+    re_path(
+        "^datelist/$",
         view=views.DateListBook.as_view(),
     ),
-    url(
-        regex=r"^isbn/$",
-        view=views.IsbnBook.as_view(),
+    re_path(
+        "^fakeisbn/$",
+        view=views.FakeIsbnBook.as_view(),
     ),
-    url(
-        regex=r"^publisher/$",
+    re_path(
+        "^publisher/$",
         view=views.PublisherBook.as_view(),
     ),
-    url(
-        regex=r"^publisher/status/$",
-        view=views.PublisherStatus.as_view(),
+    re_path(
+        "^yes24/status/$",
+        view=views.Yes24Status.as_view(),
     ),
-    url(
-        regex=r"^count/tags/$",
-        view=views.CountTags.as_view(),
-    ),
-    url(
-        regex=r"^publisher/easyspub/$",
+    re_path(
+        "^publisher/easyspub/$",
         view=views.EasysBooks.as_view(),
+    ),
+    re_path(
+        "^isbn/$",
+        view=views.FullInfoBook.as_view(),
     ),
 ]

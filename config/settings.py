@@ -41,14 +41,10 @@ DJANGO_APPS = [
 
 PROJECT_APPS = [
     "book.apps.BookConfig",
-    "utils.apps.UtilsConfig",
-    "edu_book.apps.EduBookConfig",
 ]
 
 THIRD_PARTY_APPS = [
-    "taggit",
     "corsheaders",
-    "taggit_serializer",
     "rest_framework",
     "django_extensions",
 ]
@@ -93,9 +89,9 @@ WSGI_APPLICATION = "config.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "sand_community",
+        "NAME": "canine89",
         "USER": "canine89",
-        "PASSWORD": "quddkfl1",
+        "PASSWORD": "easy1234",
         "HOST": "localhost",
         "port": "5432",
     }
